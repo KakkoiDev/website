@@ -28,6 +28,8 @@
   backdrop-filter: opacity(
     1
   ); /* fix Chrome bug with backdrop blur on nav element */
+  /* top: 0px;
+  transition: top 0.1s; */
 }
 
 .cta:after {

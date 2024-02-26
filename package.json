@@ -17,6 +17,9 @@
     "three": "^0.161.0"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.1.42",
+    "@iconify-json/mdi": "^1.1.64",
+    "@iconify/tailwind": "^0.1.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

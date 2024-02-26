@@ -68,11 +68,13 @@ export default function Home() {
             <a href="#portfolio">Portfolio</a>|<a href="#services">Services</a>
           </div>
           <a
-            href="#contact-me"
+            href="#contact"
             className={`cursor-pointer border-2 border-black px-2 cta
          ${isCTAButtonActive ? "active" : ""}
          `}
-            onClick={() => setIsCTAButtonActive((prev) => !prev)}
+            onClick={() =>
+              setIsCTAButtonActive((prevIsActive) => !prevIsActive)
+            }
           >
             <div className="relative top-[2px] tracking-widest">Contact Me</div>
           </a>
@@ -97,10 +99,10 @@ export default function Home() {
           Development
         </div>
         <a
-          href="#contact-me"
+          href="#contact"
           className={`cursor-pointer mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
             isCTAButtonActive ? "active" : ""
-          } ${isCTAButtonInitializing ? "top-[2px]" : ""}`}
+          }`}
           onClick={() => setIsCTAButtonActive((prev) => !prev)}
         >
           <div className="relative top-[3px] tracking-[0.2rem]">Contact Me</div>
@@ -115,18 +117,37 @@ export default function Home() {
         >
           Portfolio
         </div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-square sm:aspect-video shadow-md overflow-hidden relative">
-          <div
-            className="text-justify overflow-auto px-8 py-8 sm:px-12 sm:py-12 bg-white opacity-80 sm:opacity-0 hover:opacity-80 transition absolute top-0 left-0 bottom-0 right-0"
-            onClick={(event) => event.preventDefault()}
-            onMouseEnter={(event) => event.preventDefault()}
-          >
-            <div
-              className={`${bebasNeue.className} text-4xl sm:text-5xl mb-4 sm:mb-8`}
-            >
+        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md overflow-hidden relative">
+          <div className="text-justify overflow-auto px-8 py-8 sm:px-12 sm:py-12 bg-white opacity-80 sm:opacity-0 hover:opacity-80 transition absolute top-0 left-0 bottom-0 right-0">
+            <div className={`${bebasNeue.className} text-4xl sm:text-5xl`}>
               Project 1
             </div>
+            <a
+              href="#"
+              className="flex items-center mb-4 text-blue-500 hover:underline"
+            >
+              <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
+              <div className="overflow-hidden text-ellipsis">
+                https://project1.com/dashboard
+              </div>
+            </a>
             <div className="flex flex-col gap-4">
+              <div className="flex gap-4 justify-center">
+                <div className="size-8 icon-[logos--linkedin-icon]" />
+                <div className="size-8 icon-[logos--github-icon]" />
+                <div className="size-8 icon-[logos--youtube-icon]" />
+                <div className="size-8 icon-[logos--nextjs-icon]" />
+                <div className="size-8 icon-[logos--typescript-icon]" />
+                <div className="size-8 icon-[logos--expo-icon]" />
+                <div className="size-8 icon-[logos--react]" />
+                <div className="size-8 icon-[logos--javascript]" />
+                <div className="size-8 icon-[logos--git-icon]" />
+                <div className="size-8 icon-[logos--linux-tux]" />
+                <div className="size-8 icon-[logos--microsoft-windows-icon]" />
+                <div className="size-8 icon-[logos--apple]" />
+                <div className="size-8 icon-[logos--android-icon]" />
+                <div className="size-8 icon-[logos--ios]" />
+              </div>
               <div>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
                 Aliquid eius, officia incidunt veritatis, ducimus qui aut
@@ -165,18 +186,28 @@ export default function Home() {
         </div>
       </div>
       <div
-        id="contact-me"
-        className={`bg-dotted min-h-screen flex flex-col items-center px-8 py-40 gap-20`}
+        id="contact"
+        className={`bg-dotted min-h-screen flex flex-col items-center px-8 py-40`}
       >
         <div
-          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-8`}
         >
           Contact Me
         </div>
+        <div className="flex gap-8">
+          <a href="#" className="size-12 icon-[logos--linkedin-icon]" />
+          <a href="#" className="size-12 icon-[logos--github-icon]" />
+          <a href="#" className="size-12 icon-[logos--youtube-icon]" />
+        </div>
       </div>
       <footer
-        className={`flex flex-col items-center px-8 py-40 gap-20 bg-white z-30 relative`}
+        className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-30 relative`}
       >
+        <div className="flex gap-6">
+          <a href="#" className="size-8 icon-[logos--linkedin-icon]" />
+          <a href="#" className="size-8 icon-[logos--github-icon]" />
+          <a href="#" className="size-8 icon-[logos--youtube-icon]" />
+        </div>
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>
