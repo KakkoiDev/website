@@ -1,10 +1,10 @@
 "use client";
-
 import Image from "next/image";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
 import { Mesh } from "three";
+import ReactPlayer from "react-player/lazy";
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 
@@ -115,7 +115,42 @@ export default function Home() {
         >
           Portfolio
         </div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
+        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-square sm:aspect-video shadow-md overflow-hidden relative">
+          <div
+            className="text-justify overflow-auto px-8 py-8 sm:px-12 sm:py-12 bg-white opacity-80 sm:opacity-0 hover:opacity-80 transition absolute top-0 left-0 bottom-0 right-0"
+            onClick={(event) => event.preventDefault()}
+            onMouseEnter={(event) => event.preventDefault()}
+          >
+            <div
+              className={`${bebasNeue.className} text-4xl sm:text-5xl mb-4 sm:mb-8`}
+            >
+              Project 1
+            </div>
+            <div className="flex flex-col gap-4">
+              <div>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Aliquid eius, officia incidunt veritatis, ducimus qui aut
+                debitis nobis, non obcaecati in nesciunt saepe mollitia minima
+                ratione inventore animi libero eligendi!
+              </div>
+              <ul className="list-disc pl-4">
+                <li>Task 1</li>
+                <li>Task 2</li>
+                <li>Task 3</li>
+                <li>Task 4</li>
+              </ul>
+            </div>
+          </div>
+          <div className="pointer-events-none">
+            <ReactPlayer
+              url="https://www.youtube.com/watch?v=6rd6NCoDKDc"
+              playing={true}
+              muted={true}
+              loop={true}
+              controls={false}
+            />
+          </div>
+        </div>
         <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
         <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
       </div>
