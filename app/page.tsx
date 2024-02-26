@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import { Inter, Bebas_Neue } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
@@ -57,7 +58,7 @@ export default function Home() {
 
   return (
     <main className="">
-      <nav
+      {/* <nav
         className={`${bebasNeue.className} tracking-[0.2rem] flex justify-between items-center fixed top-0 left-0 right-0 h-20 px-8 backdrop-blur-md z-20`}
       >
         <a href="#home" className={`text-2xl`}>
@@ -79,7 +80,7 @@ export default function Home() {
             <div className="relative top-[2px] tracking-widest">Contact Me</div>
           </a>
         </div>
-      </nav>
+      </nav> */}
       <div
         ref={cursorHaloRef}
         className="cursor-halo rounded-full fixed origin-center pointer-events-none"
@@ -99,7 +100,9 @@ export default function Home() {
           Development
         </div>
         <a
-          href="#contact"
+          // href="#contact"
+          href="https://www.linkedin.com/in/acyril/"
+          target="_blank"
           className={`cursor-pointer mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
             isCTAButtonActive ? "active" : ""
           }`}
@@ -108,7 +111,7 @@ export default function Home() {
           <div className="relative top-[3px] tracking-[0.2rem]">Contact Me</div>
         </a>
       </div>
-      <div
+      {/* <div
         id="portfolio"
         className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-white`}
       >
@@ -199,15 +202,15 @@ export default function Home() {
           <a href="#" className="size-12 icon-[logos--github-icon]" />
           <a href="#" className="size-12 icon-[logos--youtube-icon]" />
         </div>
-      </div>
+      </div> */}
       <footer
         className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-30 relative`}
       >
-        <div className="flex gap-6">
+        {/* <div className="flex gap-6">
           <a href="#" className="size-8 icon-[logos--linkedin-icon]" />
           <a href="#" className="size-8 icon-[logos--github-icon]" />
           <a href="#" className="size-8 icon-[logos--youtube-icon]" />
-        </div>
+        </div> */}
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>
