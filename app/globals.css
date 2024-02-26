@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .bg-dotted {
-  background-image: radial-gradient(#d1d5db 8%, transparent 0);
+  background-image: radial-gradient(#d1d5db 8%, white 0);
   background-size: 35px 35px;
 }
 
@@ -45,4 +45,19 @@
 
 .cta.active:after {
   transform: scale(4.5);
+}
+
+.cursor-halo {
+  background: white;
+  mix-blend-mode: difference;
+  width: 92px;
+  height: 92px;
+  z-index: 20;
+  transform: scale(0);
+  transform-origin: center;
+  transition: transform 0.3s;
+}
+
+.cursor-halo.halo-md {
+  transform: scale(1);
 }

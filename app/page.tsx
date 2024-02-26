@@ -12,6 +12,8 @@ export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
   const [isCTAButtonInitializing, setIsCTAButtonInitializing] = useState(false);
 
+  const cursorHaloRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setTimeout(() => {
       setIsCTAButtonInitializing(true);
@@ -22,6 +24,37 @@ export default function Home() {
       }, 500);
     }, 500);
   }, []);
+
+  useEffect(() => {
+    let idleMouseShowHaloTimeout: ReturnType<typeof setTimeout> | null = null;
+    let idleMouseHideHaloTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    const moveCursorHalo = (event: MouseEvent) => {
+      if (!cursorHaloRef.current) return;
+      const cursorHaloHeiht = cursorHaloRef.current.clientHeight;
+      const yPosition = event.clientY - cursorHaloHeiht / 2;
+      const xPosition = event.clientX - cursorHaloHeiht / 2;
+
+      cursorHaloRef.current.style.top = String(yPosition) + "px";
+      cursorHaloRef.current.style.left = String(xPosition) + "px";
+
+      cursorHaloRef.current.classList.remove("halo-md");
+      if (idleMouseShowHaloTimeout) clearTimeout(idleMouseShowHaloTimeout);
+      if (idleMouseHideHaloTimeout) clearTimeout(idleMouseHideHaloTimeout);
+
+      idleMouseShowHaloTimeout = setTimeout(() => {
+        cursorHaloRef.current?.classList.add("halo-md");
+      }, 500);
+
+      idleMouseHideHaloTimeout = setTimeout(() => {
+        cursorHaloRef.current?.classList.remove("halo-md");
+      }, 2500);
+    };
+
+    window.addEventListener("mousemove", moveCursorHalo);
+    return () => window.removeEventListener("mousemove", moveCursorHalo);
+  }, []);
+
   return (
     <main className="">
       <nav
@@ -45,6 +78,10 @@ export default function Home() {
           </a>
         </div>
       </nav>
+      <div
+        ref={cursorHaloRef}
+        className="cursor-halo rounded-full fixed origin-center pointer-events-none"
+      />
       <div
         id="home"
         className={`${bebasNeue.className} bg-dotted h-screen flex flex-col justify-center items-center px-8 text-center`}
@@ -71,7 +108,7 @@ export default function Home() {
       </div>
       <div
         id="portfolio"
-        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20`}
+        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-white`}
       >
         <div
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
@@ -102,11 +139,13 @@ export default function Home() {
           Contact Me
         </div>
       </div>
-      <div className={`flex flex-col items-center px-8 py-40 gap-20`}>
+      <footer
+        className={`flex flex-col items-center px-8 py-40 gap-20 bg-white z-30 relative`}
+      >
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>
-      </div>
+      </footer>
     </main>
   );
 }
