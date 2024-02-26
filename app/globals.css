@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.header {
+.bg-dotted {
   background-image: radial-gradient(#d1d5db 8%, transparent 0);
   background-size: 35px 35px;
 }

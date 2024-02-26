@@ -27,21 +27,27 @@ export default function Home() {
       <nav
         className={`${bebasNeue.className} tracking-[0.2rem] flex justify-between items-center fixed top-0 left-0 right-0 h-20 px-8 backdrop-blur-md z-20`}
       >
-        <div className={`text-2xl`}>KakkoiDev</div>
+        <a href="#home" className={`text-2xl`}>
+          KakkoiDev
+        </a>
         <div className="flex items-center">
-          <div className="hidden sm:block mr-2">Portfolio | Services</div>
-          <button
-            className={`border-2 border-black px-2 cta
+          <div className="hidden sm:flex mr-4 gap-2">
+            <a href="#portfolio">Portfolio</a>|<a href="#services">Services</a>
+          </div>
+          <a
+            href="#contact-me"
+            className={`cursor-pointer border-2 border-black px-2 cta
          ${isCTAButtonActive ? "active" : ""}
          `}
             onClick={() => setIsCTAButtonActive((prev) => !prev)}
           >
             <div className="relative top-[2px] tracking-widest">Contact Me</div>
-          </button>
+          </a>
         </div>
       </nav>
       <div
-        className={`${bebasNeue.className} header h-screen flex flex-col justify-center items-center px-8 text-center`}
+        id="home"
+        className={`${bebasNeue.className} bg-dotted h-screen flex flex-col justify-center items-center px-8 text-center`}
       >
         <Canvas className="!absolute">
           <Box position={[0, 0, 0]} />
@@ -53,19 +59,53 @@ export default function Home() {
         <div className="z-10 text-6xl sm:text-7xl tracking-[0.4rem]">
           Development
         </div>
-        <button
-          className={`mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
+        <a
+          href="#contact-me"
+          className={`cursor-pointer mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
             isCTAButtonActive ? "active" : ""
           } ${isCTAButtonInitializing ? "top-[2px]" : ""}`}
           onClick={() => setIsCTAButtonActive((prev) => !prev)}
         >
           <div className="relative top-[3px] tracking-[0.2rem]">Contact Me</div>
-        </button>
+        </a>
       </div>
-      <div className={`min-h-screen flex flex-col items-center px-8`}>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video mb-20 shadow-md"></div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video mb-20 shadow-md"></div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video mb-20 shadow-md"></div>
+      <div
+        id="portfolio"
+        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20`}
+      >
+        <div
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+        >
+          Portfolio
+        </div>
+        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
+        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
+        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
+      </div>
+      <div
+        id="services"
+        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-gray-50`}
+      >
+        <div
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+        >
+          Services
+        </div>
+      </div>
+      <div
+        id="contact-me"
+        className={`bg-dotted min-h-screen flex flex-col items-center px-8 py-40 gap-20`}
+      >
+        <div
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+        >
+          Contact Me
+        </div>
+      </div>
+      <div className={`flex flex-col items-center px-8 py-40 gap-20`}>
+        <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
+          KakkoiDev &copy; {new Date().getFullYear()}
+        </div>
       </div>
     </main>
   );
