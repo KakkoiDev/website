@@ -8,6 +8,12 @@ import { Mesh } from "three";
 import ReactPlayer from "react-player/lazy";
 import { throttle } from "@/lib";
 import { FPS_30 } from "@/data";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type ContactMessage = {
+  email: string;
+  message: string;
+};
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 
@@ -17,6 +23,19 @@ export default function Home() {
   const cursorHaloRef = useRef<HTMLDivElement>(null);
   const aboutImageRef = useRef<HTMLImageElement>(null);
   const aboutBlockRef = useRef<HTMLDivElement>(null);
+  const contactFormRef = useRef<HTMLFormElement>(null);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactMessage>();
+  console.log({ errors });
+
+  const onSubmitMessage: SubmitHandler<ContactMessage> = (data) => {
+    console.log(data);
+    alert(JSON.stringify(data));
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -292,33 +311,64 @@ export default function Home() {
           <a href="#" className="size-12 icon-[logos--github-icon]" />
           <a href="#" className="size-12 icon-[logos--youtube-icon]" />
         </div>
-        <div className="flex flex-col w-full max-w-xl">
+        <form
+          ref={contactFormRef}
+          onSubmit={handleSubmit(onSubmitMessage)}
+          className="flex flex-col w-full max-w-xl"
+          noValidate={true}
+        >
           <input
-            type="text"
-            className="w-full px-8 py-4 mb-8 text-lg shadow-md"
+            type="email"
+            className={`${
+              errors.email ? "outline outline-red-500" : ""
+            } z-20 w-full px-8 py-4 mb-8 text-lg shadow-md`}
             placeholder="Enter your email..."
+            {...register("email", {
+              required: "Email required",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Invalid email address",
+              },
+            })}
           />
+          {errors.email && (
+            <div className="relative text-red-500 -top-7 -mb-[24px]">
+              {errors.email.message}
+            </div>
+          )}
           <textarea
-            name="message"
-            id="message"
             placeholder="Enter your message..."
             cols={30}
             rows={10}
-            className="w-full px-8 py-4 mb-8 text-lg shadow-md"
+            className={`${
+              errors.message ? "outline outline-red-500" : ""
+            } z-20 w-full px-8 py-4 mb-8 text-lg shadow-md`}
+            {...register("message", {
+              required: "Message required",
+            })}
           ></textarea>
+          {errors.message && (
+            <div className="relative text-red-500 -top-7 -mb-[24px]">
+              {errors.message.message}
+            </div>
+          )}
           <div className="flex justify-center">
-            <div
+            <button
+              type="submit"
               className={`${
                 bebasNeue.className
               } inline-block cursor-pointer text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
                 isCTAButtonActive ? "active" : ""
               }`}
-              onClick={() => setIsCTAButtonActive((prev) => !prev)}
+              onClick={() => {
+                setIsCTAButtonActive((prev) => !prev);
+                console.log({ contactFormRef });
+              }}
             >
               <div className="relative top-[3px] tracking-[0.2rem]">Send</div>
-            </div>
+            </button>
           </div>
-        </div>
+        </form>
       </div>
       <footer
         className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-30 relative`}
