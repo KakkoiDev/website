@@ -67,7 +67,14 @@ export default function Home() {
       }
     }, FPS_30);
 
-    window.addEventListener("scroll", initializeSevicesSection);
+    const imageBottom = aboutImageRef.current?.getBoundingClientRect().bottom;
+    const windowHeight = window.innerHeight;
+
+    if (typeof imageBottom !== undefined && imageBottom! - windowHeight < 0) {
+      initializeSevicesSection();
+    } else {
+      window.addEventListener("scroll", initializeSevicesSection);
+    }
     return () => window.removeEventListener("scroll", initializeSevicesSection);
   }, []);
 
@@ -202,30 +209,46 @@ export default function Home() {
         >
           About
         </div>
-        <div className="relative w-full max-w-4xl">
+        <div className="relative w-full max-w-xl">
           <Image
             ref={aboutImageRef}
             className="mx-auto rounded-full"
             src="/cyril.jpg"
-            width="400"
-            height="400"
+            width="350"
+            height="350"
             alt="Picture of Cyril"
           />
           <div
             ref={aboutBlockRef}
             className="flex flex-col gap-8 slide-up-block slide-up-block-hide"
           >
-            <div className="text-5xl">{`Welcome, I'm Cyril`}</div>
+            <div className="text-5xl text-center">{`Welcome, I'm Cyril`}</div>
             <div className="text-2xl">
-              A frontend web developer with 5+ years of experience, specialized
-              in NextJS, Typescript, and React Native.
+              A frontend web developer with over 5 years of experience,
+              specialized in NextJS, Typescript, and React Native.
             </div>
-            <div className="flex gap-8 mx-auto">
+            {/* <div className="flex gap-8 mx-auto">
               <div className="size-12 icon-[logos--nextjs-icon]" />
               <div className="size-12 icon-[logos--typescript-icon]" />
               <div className="size-12 icon-[logos--react]" />
+            </div> */}
+            <div className="flex flex-col gap-2 text-xl">
+              <div className="mb-2 text-4xl">What I do</div>
+              <div>
+                <span className="icon-[mdi--application-brackets-outline] size-6 mr-2 top-1 relative" />
+                Build high-quality, scalable, and user-fiendly websites and
+                mobile applications.
+              </div>
+              <div>
+                <span className="icon-[mdi--bug-outline] size-6 mr-2 top-1 relative" />
+                Debug and maintain existing apps.
+              </div>
+              <div>
+                <span className="icon-[mdi--account-tie] size-6 mr-2 top-1 relative" />
+                Lead and mentor teams.
+              </div>
             </div>
-            <div className="flex flex-col gap-2 text-xl text-justify sm:text-center">
+            {/* <div className="flex flex-col gap-2 text-xl text-justify sm:text-center">
               <div>
                 Expertise in building high-quality, scalable, and user-friendly
                 web applications.
@@ -234,8 +257,8 @@ export default function Home() {
                 Passionate about using cutting-edge technologies to create
                 engaging user experiences.
               </div>
-            </div>
-            <div className="flex flex-wrap justify-between gap-2">
+            </div> */}
+            {/* <div className="flex flex-wrap justify-between gap-2">
               <div className="size-8 icon-[logos--expo-icon]" />
               <div className="size-8 icon-[logos--react]" />
               <div className="size-8 icon-[logos--javascript]" />
@@ -251,7 +274,7 @@ export default function Home() {
               <div className="size-8 icon-[logos--graphql]" />
               <div className="size-8 icon-[logos--redux]" />
               <div className="size-8 icon-[logos--electron]" />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -260,14 +283,41 @@ export default function Home() {
         className={`bg-dotted min-h-screen flex flex-col items-center px-8 py-40`}
       >
         <div
-          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-8`}
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-12`}
         >
           Contact Me
         </div>
-        <div className="flex gap-8">
+        <div className="flex gap-8 mb-10">
           <a href="#" className="size-12 icon-[logos--linkedin-icon]" />
           <a href="#" className="size-12 icon-[logos--github-icon]" />
           <a href="#" className="size-12 icon-[logos--youtube-icon]" />
+        </div>
+        <div className="flex flex-col w-full max-w-xl">
+          <input
+            type="text"
+            className="w-full px-8 py-4 mb-8 text-lg shadow-md"
+            placeholder="Enter your email..."
+          />
+          <textarea
+            name="message"
+            id="message"
+            placeholder="Enter your message..."
+            cols={30}
+            rows={10}
+            className="w-full px-8 py-4 mb-8 text-lg shadow-md"
+          ></textarea>
+          <div className="flex justify-center">
+            <div
+              className={`${
+                bebasNeue.className
+              } inline-block cursor-pointer text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
+                isCTAButtonActive ? "active" : ""
+              }`}
+              onClick={() => setIsCTAButtonActive((prev) => !prev)}
+            >
+              <div className="relative top-[3px] tracking-[0.2rem]">Send</div>
+            </div>
+          </div>
         </div>
       </div>
       <footer
