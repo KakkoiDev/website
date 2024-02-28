@@ -1,29 +1,27 @@
 "use client";
 
 import Image from "next/image";
-import { Inter, Bebas_Neue } from "next/font/google";
+import { Bebas_Neue } from "next/font/google";
 import { useEffect, useRef, useState } from "react";
 import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
 import { Mesh } from "three";
 import ReactPlayer from "react-player/lazy";
+import { throttle } from "@/lib";
+import { FPS_30 } from "@/data";
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
-  const [isCTAButtonInitializing, setIsCTAButtonInitializing] = useState(false);
 
   const cursorHaloRef = useRef<HTMLDivElement>(null);
+  const aboutImageRef = useRef<HTMLImageElement>(null);
+  const aboutBlockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      setIsCTAButtonInitializing(true);
-
-      setTimeout(() => {
-        setIsCTAButtonActive(true);
-        setIsCTAButtonInitializing(false);
-      }, 500);
-    }, 500);
+      setIsCTAButtonActive(true);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -56,17 +54,34 @@ export default function Home() {
     return () => window.removeEventListener("mousemove", moveCursorHalo);
   }, []);
 
+  useEffect(() => {
+    const initializeSevicesSection = throttle(() => {
+      const imageBottom = aboutImageRef.current?.getBoundingClientRect().bottom;
+      const windowHeight = window.innerHeight;
+
+      if (typeof imageBottom !== undefined && imageBottom! - windowHeight < 0) {
+        window.removeEventListener("scroll", initializeSevicesSection);
+        aboutImageRef.current?.classList.add("fade-out-image");
+        aboutBlockRef.current?.classList.remove("slide-up-block-hide");
+        aboutBlockRef.current?.classList.add("slide-up-block-animate");
+      }
+    }, FPS_30);
+
+    window.addEventListener("scroll", initializeSevicesSection);
+    return () => window.removeEventListener("scroll", initializeSevicesSection);
+  }, []);
+
   return (
     <main className="">
-      {/* <nav
+      <nav
         className={`${bebasNeue.className} tracking-[0.2rem] flex justify-between items-center fixed top-0 left-0 right-0 h-20 px-8 backdrop-blur-md z-20`}
       >
         <a href="#home" className={`text-2xl`}>
           KakkoiDev
         </a>
         <div className="flex items-center">
-          <div className="hidden sm:flex mr-4 gap-2">
-            <a href="#portfolio">Portfolio</a>|<a href="#services">Services</a>
+          <div className="hidden gap-2 mr-4 sm:flex">
+            <a href="#portfolio">Portfolio</a>|<a href="#about">About</a>
           </div>
           <a
             href="#contact"
@@ -80,10 +95,10 @@ export default function Home() {
             <div className="relative top-[2px] tracking-widest">Contact Me</div>
           </a>
         </div>
-      </nav> */}
+      </nav>
       <div
         ref={cursorHaloRef}
-        className="cursor-halo rounded-full fixed origin-center pointer-events-none"
+        className="fixed origin-center rounded-full pointer-events-none cursor-halo"
       />
       <div
         id="home"
@@ -100,9 +115,9 @@ export default function Home() {
           Development
         </div>
         <a
-          // href="#contact"
-          href="https://www.linkedin.com/in/acyril/"
-          target="_blank"
+          href="#contact"
+          // href="https://www.linkedin.com/in/acyril/"
+          // target="_blank"
           className={`cursor-pointer mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
             isCTAButtonActive ? "active" : ""
           }`}
@@ -111,7 +126,7 @@ export default function Home() {
           <div className="relative top-[3px] tracking-[0.2rem]">Contact Me</div>
         </a>
       </div>
-      {/* <div
+      <div
         id="portfolio"
         className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-white`}
       >
@@ -121,7 +136,7 @@ export default function Home() {
           Portfolio
         </div>
         <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md overflow-hidden relative">
-          <div className="text-justify overflow-auto px-8 py-8 sm:px-12 sm:py-12 bg-white opacity-80 sm:opacity-0 hover:opacity-80 transition absolute top-0 left-0 bottom-0 right-0">
+          <div className="absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 opacity-80 sm:opacity-0 hover:opacity-80">
             <div className={`${bebasNeue.className} text-4xl sm:text-5xl`}>
               Project 1
             </div>
@@ -135,7 +150,7 @@ export default function Home() {
               </div>
             </a>
             <div className="flex flex-col gap-4">
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-wrap justify-center gap-4">
                 <div className="size-8 icon-[logos--linkedin-icon]" />
                 <div className="size-8 icon-[logos--github-icon]" />
                 <div className="size-8 icon-[logos--youtube-icon]" />
@@ -157,7 +172,7 @@ export default function Home() {
                 debitis nobis, non obcaecati in nesciunt saepe mollitia minima
                 ratione inventore animi libero eligendi!
               </div>
-              <ul className="list-disc pl-4">
+              <ul className="pl-4 list-disc">
                 <li>Task 1</li>
                 <li>Task 2</li>
                 <li>Task 3</li>
@@ -179,13 +194,65 @@ export default function Home() {
         <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
       </div>
       <div
-        id="services"
-        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-gray-50`}
+        id="about"
+        className={`min-h-screen flex flex-col items-center px-8 py-40 bg-gray-50 text-justify`}
       >
         <div
-          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-12`}
         >
-          Services
+          About
+        </div>
+        <div className="relative w-full max-w-4xl">
+          <Image
+            ref={aboutImageRef}
+            className="mx-auto rounded-full"
+            src="/cyril.jpg"
+            width="400"
+            height="400"
+            alt="Picture of Cyril"
+          />
+          <div
+            ref={aboutBlockRef}
+            className="flex flex-col gap-8 slide-up-block slide-up-block-hide"
+          >
+            <div className="text-5xl">{`Welcome, I'm Cyril`}</div>
+            <div className="text-2xl">
+              A frontend web developer with 5+ years of experience, specialized
+              in NextJS, Typescript, and React Native.
+            </div>
+            <div className="flex gap-8 mx-auto">
+              <div className="size-12 icon-[logos--nextjs-icon]" />
+              <div className="size-12 icon-[logos--typescript-icon]" />
+              <div className="size-12 icon-[logos--react]" />
+            </div>
+            <div className="flex flex-col gap-2 text-xl text-justify sm:text-center">
+              <div>
+                Expertise in building high-quality, scalable, and user-friendly
+                web applications.
+              </div>
+              <div>
+                Passionate about using cutting-edge technologies to create
+                engaging user experiences.
+              </div>
+            </div>
+            <div className="flex flex-wrap justify-between gap-2">
+              <div className="size-8 icon-[logos--expo-icon]" />
+              <div className="size-8 icon-[logos--react]" />
+              <div className="size-8 icon-[logos--javascript]" />
+              <div className="size-8 icon-[logos--html-5]" />
+              <div className="size-8 icon-[logos--css-3]" />
+              <div className="size-8 icon-[logos--nodejs-icon-alt]" />
+              <div className="size-8 icon-[logos--nestjs]" />
+              <div className="size-8 icon-[logos--vue]" />
+              <div className="size-8 icon-[logos--supabase-icon]" />
+              <div className="size-8 icon-[logos--tailwindcss-icon]" />
+              <div className="size-8 icon-[logos--playwright]" />
+              <div className="size-8 icon-[logos--jest]" />
+              <div className="size-8 icon-[logos--graphql]" />
+              <div className="size-8 icon-[logos--redux]" />
+              <div className="size-8 icon-[logos--electron]" />
+            </div>
+          </div>
         </div>
       </div>
       <div
@@ -202,15 +269,15 @@ export default function Home() {
           <a href="#" className="size-12 icon-[logos--github-icon]" />
           <a href="#" className="size-12 icon-[logos--youtube-icon]" />
         </div>
-      </div> */}
+      </div>
       <footer
         className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-30 relative`}
       >
-        {/* <div className="flex gap-6">
+        <div className="flex gap-6">
           <a href="#" className="size-8 icon-[logos--linkedin-icon]" />
           <a href="#" className="size-8 icon-[logos--github-icon]" />
           <a href="#" className="size-8 icon-[logos--youtube-icon]" />
-        </div> */}
+        </div>
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>

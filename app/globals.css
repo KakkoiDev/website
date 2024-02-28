@@ -63,3 +63,45 @@
 .cursor-halo.halo-md {
   transform: scale(1);
 }
+
+.slide-up-block {
+  position: relative;
+  margin-bottom: -200px;
+}
+
+.slide-up-block-hide {
+  opacity: 0;
+}
+
+.slide-up-block-animate {
+  top: 0;
+  animation: slideupblock 1s forwards;
+}
+
+@keyframes slideupblock {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+
+  100% {
+    top: -200px;
+    opacity: 1;
+  }
+}
+
+.fade-out-image {
+  animation: fadeoutimage 1s forwards;
+}
+
+@keyframes fadeoutimage {
+  0% {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  100% {
+    filter: grayscale(1);
+    opacity: 0.3;
+  }
+}
