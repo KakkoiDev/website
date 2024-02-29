@@ -9,16 +9,21 @@ import ReactPlayer from "react-player/lazy";
 import { throttle } from "@/lib";
 import { FPS_30 } from "@/data";
 import { useForm, SubmitHandler } from "react-hook-form";
+import toast, { Toaster, resolveValue } from "react-hot-toast";
 
 type ContactMessage = {
   email: string;
   message: string;
 };
 
+type ContactSendButtonText = "Send" | "Sending";
+
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
+  const [contactSendButtonText, setContactSendButtonText] =
+    useState<ContactSendButtonText>("Send");
 
   const cursorHaloRef = useRef<HTMLDivElement>(null);
   const aboutImageRef = useRef<HTMLImageElement>(null);
@@ -35,6 +40,10 @@ export default function Home() {
   const onSubmitMessage: SubmitHandler<ContactMessage> = (data) => {
     console.log(data);
     alert(JSON.stringify(data));
+  };
+
+  const onSubmitMessageError = () => {
+    toast.error("Please check the form for errors");
   };
 
   useEffect(() => {
@@ -69,7 +78,9 @@ export default function Home() {
       }, 2500);
     };
 
-    window.addEventListener("mousemove", moveCursorHalo);
+    if (!window.matchMedia("(any-hover: none)").matches) {
+      window.addEventListener("mousemove", moveCursorHalo);
+    }
     return () => window.removeEventListener("mousemove", moveCursorHalo);
   }, []);
 
@@ -100,7 +111,7 @@ export default function Home() {
   return (
     <main className="">
       <nav
-        className={`${bebasNeue.className} tracking-[0.2rem] flex justify-between items-center fixed top-0 left-0 right-0 h-20 px-8 backdrop-blur-md z-20`}
+        className={`${bebasNeue.className} tracking-[0.2rem] flex justify-between items-center fixed top-0 left-0 right-0 h-20 px-8 backdrop-blur-md z-10`}
       >
         <a href="#home" className={`text-2xl`}>
           KakkoiDev
@@ -133,11 +144,11 @@ export default function Home() {
         <Canvas className="!absolute">
           <Box position={[0, 0, 0]} />
         </Canvas>
-        <div className="z-10 text-5xl sm:text-6xl mb-14 traking-[0.2rem]">
+        <div className="text-5xl sm:text-6xl mb-14 traking-[0.2rem]">
           KakkoiDev Studio
         </div>
-        <div className="z-10 text-7xl sm:text-8xl">Web & App</div>
-        <div className="z-10 text-6xl sm:text-7xl tracking-[0.4rem]">
+        <div className="text-7xl sm:text-8xl">Web & App</div>
+        <div className="text-6xl sm:text-7xl tracking-[0.4rem]">
           Development
         </div>
         <a
@@ -154,70 +165,74 @@ export default function Home() {
       </div>
       <div
         id="portfolio"
-        className={`min-h-screen flex flex-col items-center px-8 py-40 gap-20 bg-white`}
+        className={`min-h-screen flex flex-col items-center py-40 gap-10 sm:gap-20 bg-white`}
       >
         <div
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
         >
           Portfolio
         </div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md overflow-hidden relative">
-          <div className="absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 opacity-80 sm:opacity-0 hover:opacity-80">
-            <div className={`${bebasNeue.className} text-4xl sm:text-5xl`}>
-              Project 1
+
+        {[1, 2, 3].map((value) => (
+          <div
+            key={value}
+            className="bg-gray-300 max-w-[640px] w-full sm:rounded-3xl aspect-video shadow-md overflow-hidden relative"
+          >
+            <div className="absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 opacity-80 sm:opacity-0 hover:opacity-80">
+              <div className={`${bebasNeue.className} text-4xl sm:text-5xl`}>
+                Project 1
+              </div>
+              <a
+                href="#"
+                className="flex items-center mb-4 text-blue-500 hover:underline"
+              >
+                <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
+                <div className="overflow-hidden text-ellipsis">
+                  https://project1.com/dashboard
+                </div>
+              </a>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-wrap justify-center gap-4">
+                  <div className="size-8 icon-[logos--linkedin-icon]" />
+                  <div className="size-8 icon-[logos--github-icon]" />
+                  <div className="size-8 icon-[logos--youtube-icon]" />
+                  <div className="size-8 icon-[logos--nextjs-icon]" />
+                  <div className="size-8 icon-[logos--typescript-icon]" />
+                  <div className="size-8 icon-[logos--expo-icon]" />
+                  <div className="size-8 icon-[logos--react]" />
+                  <div className="size-8 icon-[logos--javascript]" />
+                  <div className="size-8 icon-[logos--git-icon]" />
+                  <div className="size-8 icon-[logos--linux-tux]" />
+                  <div className="size-8 icon-[logos--microsoft-windows-icon]" />
+                  <div className="size-8 icon-[logos--apple]" />
+                  <div className="size-8 icon-[logos--android-icon]" />
+                  <div className="size-8 icon-[logos--ios]" />
+                </div>
+                <div>
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Aliquid eius, officia incidunt veritatis, ducimus qui aut
+                  debitis nobis, non obcaecati in nesciunt saepe mollitia minima
+                  ratione inventore animi libero eligendi!
+                </div>
+                <ul className="pl-4 list-disc">
+                  <li>Task 1</li>
+                  <li>Task 2</li>
+                  <li>Task 3</li>
+                  <li>Task 4</li>
+                </ul>
+              </div>
             </div>
-            <a
-              href="#"
-              className="flex items-center mb-4 text-blue-500 hover:underline"
-            >
-              <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
-              <div className="overflow-hidden text-ellipsis">
-                https://project1.com/dashboard
-              </div>
-            </a>
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="size-8 icon-[logos--linkedin-icon]" />
-                <div className="size-8 icon-[logos--github-icon]" />
-                <div className="size-8 icon-[logos--youtube-icon]" />
-                <div className="size-8 icon-[logos--nextjs-icon]" />
-                <div className="size-8 icon-[logos--typescript-icon]" />
-                <div className="size-8 icon-[logos--expo-icon]" />
-                <div className="size-8 icon-[logos--react]" />
-                <div className="size-8 icon-[logos--javascript]" />
-                <div className="size-8 icon-[logos--git-icon]" />
-                <div className="size-8 icon-[logos--linux-tux]" />
-                <div className="size-8 icon-[logos--microsoft-windows-icon]" />
-                <div className="size-8 icon-[logos--apple]" />
-                <div className="size-8 icon-[logos--android-icon]" />
-                <div className="size-8 icon-[logos--ios]" />
-              </div>
-              <div>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Aliquid eius, officia incidunt veritatis, ducimus qui aut
-                debitis nobis, non obcaecati in nesciunt saepe mollitia minima
-                ratione inventore animi libero eligendi!
-              </div>
-              <ul className="pl-4 list-disc">
-                <li>Task 1</li>
-                <li>Task 2</li>
-                <li>Task 3</li>
-                <li>Task 4</li>
-              </ul>
+            <div className="pointer-events-none">
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=6rd6NCoDKDc"
+                playing={true}
+                muted={true}
+                loop={true}
+                controls={false}
+              />
             </div>
           </div>
-          <div className="pointer-events-none">
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=6rd6NCoDKDc"
-              playing={true}
-              muted={true}
-              loop={true}
-              controls={false}
-            />
-          </div>
-        </div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
-        <div className="bg-gray-300 max-w-[640px] w-full rounded-3xl aspect-video shadow-md"></div>
+        ))}
       </div>
       <div
         id="about"
@@ -313,7 +328,7 @@ export default function Home() {
         </div>
         <form
           ref={contactFormRef}
-          onSubmit={handleSubmit(onSubmitMessage)}
+          onSubmit={handleSubmit(onSubmitMessage, onSubmitMessageError)}
           className="flex flex-col w-full max-w-xl"
           noValidate={true}
         >
@@ -321,7 +336,7 @@ export default function Home() {
             type="email"
             className={`${
               errors.email ? "outline outline-red-500" : ""
-            } z-20 w-full px-8 py-4 mb-8 text-lg shadow-md`}
+            } w-full px-8 py-4 mb-8 text-lg shadow-md`}
             placeholder="Enter your email..."
             {...register("email", {
               required: "Email required",
@@ -342,7 +357,7 @@ export default function Home() {
             rows={10}
             className={`${
               errors.message ? "outline outline-red-500" : ""
-            } z-20 w-full px-8 py-4 mb-8 text-lg shadow-md`}
+            } w-full px-8 py-4 mb-8 text-lg shadow-md`}
             {...register("message", {
               required: "Message required",
             })}
@@ -365,13 +380,15 @@ export default function Home() {
                 console.log({ contactFormRef });
               }}
             >
-              <div className="relative top-[3px] tracking-[0.2rem]">Send</div>
+              <div className="relative top-[3px] tracking-[0.2rem]">
+                {contactSendButtonText}
+              </div>
             </button>
           </div>
         </form>
       </div>
       <footer
-        className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-30 relative`}
+        className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-20 relative`}
       >
         <div className="flex gap-6">
           <a href="#" className="size-8 icon-[logos--linkedin-icon]" />
@@ -382,6 +399,27 @@ export default function Home() {
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>
       </footer>
+      <Toaster>
+        {(t) => {
+          console.log({ t });
+          return (
+            <div
+              className={`${
+                t.visible ? "animate-enter" : "animate-leave"
+              } justify-between items-center max-w-sm w-full bg-white shadow-md rounded-md flex px-8 py-4 ${
+                t.type === "error" ? "text-red-500" : ""
+              }`}
+            >
+              <div>{resolveValue(t.message, t)}</div>
+
+              <div
+                onClick={() => toast.dismiss(t.id)}
+                className="size-6 icon-[mdi--close] cursor-pointer"
+              />
+            </div>
+          );
+        }}
+      </Toaster>
     </main>
   );
 }
