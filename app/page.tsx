@@ -34,12 +34,16 @@ export default function Home() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ContactMessage>();
-  console.log({ errors });
 
-  const onSubmitMessage: SubmitHandler<ContactMessage> = (data) => {
+  const onSubmitMessage: SubmitHandler<ContactMessage> = async (data) => {
+    setContactSendButtonText("Sending");
     console.log(data);
-    alert(JSON.stringify(data));
+    await new Promise((res) => setTimeout(res, 2000));
+    reset();
+    setContactSendButtonText("Send");
+    toast.success("Message sent!\nA confirmation will be sent to your email.");
   };
 
   const onSubmitMessageError = () => {
@@ -377,8 +381,8 @@ export default function Home() {
               }`}
               onClick={() => {
                 setIsCTAButtonActive((prev) => !prev);
-                console.log({ contactFormRef });
               }}
+              disabled={contactSendButtonText === "Sending"}
             >
               <div className="relative top-[3px] tracking-[0.2rem]">
                 {contactSendButtonText}
@@ -399,19 +403,30 @@ export default function Home() {
           KakkoiDev &copy; {new Date().getFullYear()}
         </div>
       </footer>
-      <Toaster>
+      <Toaster
+        toastOptions={{
+          duration: 5000,
+        }}
+      >
         {(t) => {
-          console.log({ t });
+          const messageList =
+            typeof resolveValue(t.message, t) === "string"
+              ? (resolveValue(t.message, t) as string).split("\n")
+              : [];
+          const message = messageList.map((text) => (
+            <div key={text}>{text}</div>
+          ));
+
           return (
             <div
               className={`${
                 t.visible ? "animate-enter" : "animate-leave"
               } justify-between items-center max-w-sm w-full bg-white shadow-md rounded-md flex px-8 py-4 ${
                 t.type === "error" ? "text-red-500" : ""
-              }`}
+              } ${t.type === "success" ? "text-green-500" : ""}`}
             >
-              <div>{resolveValue(t.message, t)}</div>
-
+              {/* <div dangerouslySetInnerHTML={{ __html: message }}></div> */}
+              <div className="flex flex-col">{message}</div>
               <div
                 onClick={() => toast.dismiss(t.id)}
                 className="size-6 icon-[mdi--close] cursor-pointer"
