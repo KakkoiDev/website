@@ -24,11 +24,15 @@ export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
   const [contactSendButtonText, setContactSendButtonText] =
     useState<ContactSendButtonText>("Send");
+  const [isPlaying, setIsPlaying] = useState<boolean[]>([false, false, false]);
+  const [hasMouse, setHasMouse] = useState<boolean>(false);
+  const [hasWindow, setHasWindow] = useState(false);
 
   const cursorHaloRef = useRef<HTMLDivElement>(null);
   const aboutImageRef = useRef<HTMLImageElement>(null);
   const aboutBlockRef = useRef<HTMLDivElement>(null);
   const contactFormRef = useRef<HTMLFormElement>(null);
+  const portfolioElementRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const {
     register,
@@ -76,6 +80,8 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    if (!hasMouse) return;
+
     let idleMouseShowHaloTimeout: ReturnType<typeof setTimeout> | null = null;
     let idleMouseHideHaloTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -101,11 +107,9 @@ export default function Home() {
       }, 2500);
     };
 
-    if (!window.matchMedia("(any-hover: none)").matches) {
-      window.addEventListener("mousemove", moveCursorHalo);
-    }
+    window.addEventListener("mousemove", moveCursorHalo);
     return () => window.removeEventListener("mousemove", moveCursorHalo);
-  }, []);
+  }, [hasMouse]);
 
   useEffect(() => {
     const initializeSevicesSection = throttle(() => {
@@ -131,6 +135,59 @@ export default function Home() {
     return () => window.removeEventListener("scroll", initializeSevicesSection);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia("(any-hover: none)").matches) setHasMouse(true);
+  }, []);
+
+  // fix react-player hydration error
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setHasWindow(true);
+    }
+  }, []);
+
+  // react-player scroll event listener
+  useEffect(() => {
+    const handlePlayerState = throttle(() => {
+      // if show more startPercentage of thumbnail, start video
+      // if show more stopPercentage of thumbnail, pause video
+      // only start last video, stop the previous ones
+      const startPercentage = hasMouse ? 60 : 30;
+      const stopPercentage = hasMouse ? 200 : 120;
+      const allPotentiallyPlayingVideos = [false, false, false];
+
+      portfolioElementRefs.current.forEach((element, index) => {
+        const elementBoundingClientRect = element?.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const elementShowingHeight =
+          windowHeight - (elementBoundingClientRect?.top ?? 0);
+        const elementShowingPercentage =
+          (elementShowingHeight / (elementBoundingClientRect?.height ?? 1)) *
+          100;
+
+        if (
+          elementShowingPercentage > startPercentage &&
+          elementShowingPercentage < stopPercentage
+        ) {
+          allPotentiallyPlayingVideos.splice(index, 1, true);
+        }
+      });
+
+      const lastPlayingVideoIndex =
+        allPotentiallyPlayingVideos.lastIndexOf(true);
+      const currentlyPlayingVideo = [false, false, false];
+
+      if (lastPlayingVideoIndex !== -1) {
+        currentlyPlayingVideo.splice(lastPlayingVideoIndex, 1, true);
+      }
+
+      setIsPlaying(currentlyPlayingVideo);
+    }, FPS_30);
+
+    window.addEventListener("scroll", handlePlayerState);
+    return () => window.removeEventListener("scroll", handlePlayerState);
+  }, [isPlaying, hasMouse]);
+
   return (
     <main className="">
       <nav
@@ -141,7 +198,7 @@ export default function Home() {
         </a>
         <div className="flex items-center">
           <div className="hidden gap-2 mr-4 sm:flex">
-            <a href="#portfolio">Portfolio</a>|<a href="#about">About</a>
+            <a href="#about">About</a>|<a href="#portfolio">Portfolio</a>
           </div>
           <a
             href="#contact"
@@ -184,80 +241,10 @@ export default function Home() {
           <div className="relative top-[3px] tracking-[0.2rem]">Contact Me</div>
         </a>
       </div>
-      <div
-        id="portfolio"
-        className={`min-h-screen flex flex-col items-center py-40 gap-10 sm:gap-20 bg-white`}
-      >
-        <div
-          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
-        >
-          Portfolio
-        </div>
 
-        {[1, 2, 3].map((value) => (
-          <div
-            key={value}
-            className="bg-gray-300 max-w-[640px] w-full sm:rounded-3xl aspect-video shadow-md overflow-hidden relative"
-          >
-            <div className="absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 opacity-80 sm:opacity-0 hover:opacity-80">
-              <div className={`${bebasNeue.className} text-4xl sm:text-5xl`}>
-                Project 1
-              </div>
-              <a
-                href="#"
-                className="flex items-center mb-4 text-blue-500 hover:underline"
-              >
-                <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
-                <div className="overflow-hidden text-ellipsis">
-                  https://project1.com/dashboard
-                </div>
-              </a>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap justify-center gap-4">
-                  <div className="size-8 icon-[logos--linkedin-icon]" />
-                  <div className="size-8 icon-[logos--github-icon]" />
-                  <div className="size-8 icon-[logos--youtube-icon]" />
-                  <div className="size-8 icon-[logos--nextjs-icon]" />
-                  <div className="size-8 icon-[logos--typescript-icon]" />
-                  <div className="size-8 icon-[logos--expo-icon]" />
-                  <div className="size-8 icon-[logos--react]" />
-                  <div className="size-8 icon-[logos--javascript]" />
-                  <div className="size-8 icon-[logos--git-icon]" />
-                  <div className="size-8 icon-[logos--linux-tux]" />
-                  <div className="size-8 icon-[logos--microsoft-windows-icon]" />
-                  <div className="size-8 icon-[logos--apple]" />
-                  <div className="size-8 icon-[logos--android-icon]" />
-                  <div className="size-8 icon-[logos--ios]" />
-                </div>
-                <div>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid eius, officia incidunt veritatis, ducimus qui aut
-                  debitis nobis, non obcaecati in nesciunt saepe mollitia minima
-                  ratione inventore animi libero eligendi!
-                </div>
-                <ul className="pl-4 list-disc">
-                  <li>Task 1</li>
-                  <li>Task 2</li>
-                  <li>Task 3</li>
-                  <li>Task 4</li>
-                </ul>
-              </div>
-            </div>
-            <div className="pointer-events-none">
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=6rd6NCoDKDc"
-                playing={true}
-                muted={true}
-                loop={true}
-                controls={false}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
       <div
         id="about"
-        className={`min-h-screen flex flex-col items-center px-8 py-40 bg-gray-50 text-justify`}
+        className={`min-h-screen flex flex-col items-center px-8 py-40 bg-white text-justify`}
       >
         <div
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-12`}
@@ -332,6 +319,91 @@ export default function Home() {
             </div> */}
           </div>
         </div>
+      </div>
+      <div
+        id="portfolio"
+        className={`min-h-screen flex flex-col items-center py-40 gap-20 bg-gray-50`}
+      >
+        <div
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
+        >
+          Portfolio
+        </div>
+        {[1, 2, 3].map((value, index) => (
+          <div
+            ref={(element) => (portfolioElementRefs.current[index] = element)}
+            key={index}
+            className="bg-gray-300 max-w-[860px] text-lg w-full sm:aspect-video shadow-md overflow-hidden relative"
+          >
+            <div className="pointer-events-none relative aspect-video">
+              <Image
+                src={"/portfolio-helloasso.png"}
+                alt={"Portfolio HelloAsso"}
+                width={869}
+                height={484}
+                className="absolute"
+              />
+              {hasWindow && (
+                <ReactPlayer
+                  className="relative z-[1]"
+                  url="/portfolio-helloasso.mp4"
+                  playing={isPlaying[index]}
+                  muted={true}
+                  loop={true}
+                  controls={false}
+                  width="100%"
+                  height="100%"
+                />
+              )}
+            </div>
+            <div className="z-[2] sm:absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 sm:opacity-0 hover:opacity-90">
+              <div
+                className={`${bebasNeue.className} text-4xl sm:text-5xl mb-2`}
+              >
+                Project 1
+              </div>
+              <a
+                href="#"
+                className="flex items-center mb-6 text-blue-500 hover:underline"
+              >
+                <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
+                <div className="overflow-hidden text-ellipsis">
+                  https://project1.com/dashboard
+                </div>
+              </a>
+              <div className="flex flex-col gap-6">
+                <div className="flex flex-wrap justify-center gap-4">
+                  <div className="size-8 icon-[logos--linkedin-icon]" />
+                  <div className="size-8 icon-[logos--github-icon]" />
+                  <div className="size-8 icon-[logos--youtube-icon]" />
+                  <div className="size-8 icon-[logos--nextjs-icon]" />
+                  <div className="size-8 icon-[logos--typescript-icon]" />
+                  <div className="size-8 icon-[logos--expo-icon]" />
+                  <div className="size-8 icon-[logos--react]" />
+                  <div className="size-8 icon-[logos--javascript]" />
+                  <div className="size-8 icon-[logos--git-icon]" />
+                  <div className="size-8 icon-[logos--linux-tux]" />
+                  <div className="size-8 icon-[logos--microsoft-windows-icon]" />
+                  <div className="size-8 icon-[logos--apple]" />
+                  <div className="size-8 icon-[logos--android-icon]" />
+                  <div className="size-8 icon-[logos--ios]" />
+                </div>
+                <div>
+                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                  Aliquid eius, officia incidunt veritatis, ducimus qui aut
+                  debitis nobis, non obcaecati in nesciunt saepe mollitia minima
+                  ratione inventore animi libero eligendi!
+                </div>
+                <ul className="pl-4 list-disc">
+                  <li>Task 1</li>
+                  <li>Task 2</li>
+                  <li>Task 3</li>
+                  <li>Task 4</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
       <div
         id="contact"
