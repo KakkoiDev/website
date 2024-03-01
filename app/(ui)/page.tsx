@@ -38,16 +38,35 @@ export default function Home() {
   } = useForm<ContactMessage>();
 
   const onSubmitMessage: SubmitHandler<ContactMessage> = async (data) => {
-    setContactSendButtonText("Sending");
-    console.log(data);
-    await new Promise((res) => setTimeout(res, 2000));
-    reset();
-    setContactSendButtonText("Send");
-    toast.success("Message sent!\nA confirmation will be sent to your email.");
+    try {
+      setContactSendButtonText("Sending");
+      console.log(data);
+      const response = await fetch("/api/email/send", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+
+      const hasError = !response.ok || Boolean((await response.json()).error);
+
+      if (hasError) {
+        toast.error("The message was not sent!\nPlease try again later.");
+        setContactSendButtonText("Send");
+        return;
+      }
+
+      reset();
+      setContactSendButtonText("Send");
+      toast.success(
+        "Message sent!\nA confirmation will be sent to your email."
+      );
+    } catch (error) {
+      toast.error("The message was not sent!\nMake sure you are online.");
+      setContactSendButtonText("Send");
+    }
   };
 
   const onSubmitMessageError = () => {
-    toast.error("Please check the form for errors");
+    toast.error("Please check the form for errors.");
   };
 
   useEffect(() => {
@@ -157,8 +176,6 @@ export default function Home() {
         </div>
         <a
           href="#contact"
-          // href="https://www.linkedin.com/in/acyril/"
-          // target="_blank"
           className={`cursor-pointer mt-14 text-4xl border-4 border-black px-4 py-2 active:top-[2px] relative cta ${
             isCTAButtonActive ? "active" : ""
           }`}

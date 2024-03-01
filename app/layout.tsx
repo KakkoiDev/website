@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Knewave, Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-const roboto = Roboto({ weight: "400", subsets: ["latin"] });
-const knewave = Knewave({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "KakkoiDev",
-  description: "Websites & Apps",
+  description: "Web & App Development",
 };
 
 export default function RootLayout({
