@@ -167,7 +167,7 @@ export default function Home() {
         <Canvas className="!absolute">
           <Box position={[0, 0, 0]} />
         </Canvas>
-        <div className="text-5xl sm:text-6xl mb-14 traking-[0.2rem]">
+        <div className="text-5xl sm:text-6xl mb-14 tracking-[0.2rem]">
           KakkoiDev Studio
         </div>
         <div className="text-7xl sm:text-8xl">Web & App</div>
