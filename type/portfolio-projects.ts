@@ -1,9 +1,9 @@
-import { Link } from "@/type";
+import { Link, Icon } from "@/type";
 
 export type PortfolioProjects = {
   title: string;
   link: (string | Link)[];
-  technologies: ("nextjs" | "tailwind")[];
+  technologies: Icon[];
   fallbackImage: string;
   video: string;
   description: string;

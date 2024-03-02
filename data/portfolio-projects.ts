@@ -4,7 +4,14 @@ export const portfolioProjects: PortfolioProjects = [
   {
     title: "TheseusAI",
     link: ["https://theseus-ai.com"],
-    technologies: ["nextjs", "tailwind"],
+    technologies: [
+      "nextjs",
+      "typescript",
+      "react",
+      "supabase",
+      "tailwind",
+      "playwright",
+    ],
     fallbackImage: "https://cdn.kakkoi.dev/portfolio-theseus-ai.png",
     video: "https://cdn.kakkoi.dev/portfolio-theseus-ai.mp4",
     description:
@@ -21,15 +28,22 @@ export const portfolioProjects: PortfolioProjects = [
     title: "Theseus Meeting",
     link: [
       {
-        title: "PlayStore",
+        title: "Google Play",
         href: "https://play.google.com/store/apps/details?id=com.theseus.theseusmeeting&hl=en&gl=US",
       },
       {
-        title: "App Store",
+        title: "Apple App Store",
         href: "https://apps.apple.com/fr/app/theseus-meeting/id6448635749?l=en-GB",
       },
     ],
-    technologies: ["nextjs", "tailwind"],
+    technologies: [
+      "expo",
+      "typescript",
+      "react native",
+      "supabase",
+      "google play",
+      "apple app store",
+    ],
     fallbackImage: "https://cdn.kakkoi.dev/portfolio-theseus-ai-mobile.png",
     video: "https://cdn.kakkoi.dev/portfolio-theseus-ai-mobile.mp4",
     description:
@@ -44,7 +58,14 @@ export const portfolioProjects: PortfolioProjects = [
   {
     title: "La Fourche",
     link: ["https://lafourche.fr"],
-    technologies: ["nextjs", "tailwind"],
+    technologies: [
+      "nextjs",
+      "typescript",
+      "react",
+      "graphql",
+      "redux",
+      "playwright",
+    ],
     fallbackImage: "https://cdn.kakkoi.dev/portfolio-la-fourche.png",
     video: "https://cdn.kakkoi.dev/portfolio-la-fourche.mp4",
     description:
@@ -57,7 +78,15 @@ export const portfolioProjects: PortfolioProjects = [
   {
     title: "HelloAsso",
     link: ["https://helloasso.com"],
-    technologies: ["nextjs", "tailwind"],
+    technologies: [
+      "nuxt",
+      "vue",
+      "javascript",
+      "electron",
+      "nodejs",
+      "playwright",
+      "jest",
+    ],
     fallbackImage: "https://cdn.kakkoi.dev/portfolio-helloasso.png",
     video: "https://cdn.kakkoi.dev/portfolio-helloasso.mp4",
     description:

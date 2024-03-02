@@ -10,6 +10,8 @@ import { throttle } from "@/lib";
 import { FPS_30, portfolioProjects } from "@/data";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast, { Toaster, resolveValue } from "react-hot-toast";
+import { Icon } from "@/ui";
+import { socialLinks } from "@/data/social-links";
 
 type ContactMessage = {
   email: string;
@@ -276,11 +278,6 @@ export default function Home() {
               A frontend web developer with over 5 years of experience,
               specialized in NextJS, Typescript, and React Native.
             </div>
-            {/* <div className="flex gap-8 mx-auto">
-              <div className="size-12 icon-[logos--nextjs-icon]" />
-              <div className="size-12 icon-[logos--typescript-icon]" />
-              <div className="size-12 icon-[logos--react]" />
-            </div> */}
             <div className="flex flex-col gap-2 text-xl">
               <div className="mb-2 text-4xl">What I do</div>
               <div>
@@ -297,33 +294,6 @@ export default function Home() {
                 Lead and mentor teams.
               </div>
             </div>
-            {/* <div className="flex flex-col gap-2 text-xl text-justify sm:text-center">
-              <div>
-                Expertise in building high-quality, scalable, and user-friendly
-                web applications.
-              </div>
-              <div>
-                Passionate about using cutting-edge technologies to create
-                engaging user experiences.
-              </div>
-            </div> */}
-            {/* <div className="flex flex-wrap justify-between gap-2">
-              <div className="size-8 icon-[logos--expo-icon]" />
-              <div className="size-8 icon-[logos--react]" />
-              <div className="size-8 icon-[logos--javascript]" />
-              <div className="size-8 icon-[logos--html-5]" />
-              <div className="size-8 icon-[logos--css-3]" />
-              <div className="size-8 icon-[logos--nodejs-icon-alt]" />
-              <div className="size-8 icon-[logos--nestjs]" />
-              <div className="size-8 icon-[logos--vue]" />
-              <div className="size-8 icon-[logos--supabase-icon]" />
-              <div className="size-8 icon-[logos--tailwindcss-icon]" />
-              <div className="size-8 icon-[logos--playwright]" />
-              <div className="size-8 icon-[logos--jest]" />
-              <div className="size-8 icon-[logos--graphql]" />
-              <div className="size-8 icon-[logos--redux]" />
-              <div className="size-8 icon-[logos--electron]" />
-            </div> */}
           </div>
         </div>
       </div>
@@ -403,20 +373,9 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-wrap justify-center gap-4">
-                  <div className="size-8 icon-[logos--linkedin-icon]" />
-                  <div className="size-8 icon-[logos--github-icon]" />
-                  <div className="size-8 icon-[logos--youtube-icon]" />
-                  <div className="size-8 icon-[logos--nextjs-icon]" />
-                  <div className="size-8 icon-[logos--typescript-icon]" />
-                  <div className="size-8 icon-[logos--expo-icon]" />
-                  <div className="size-8 icon-[logos--react]" />
-                  <div className="size-8 icon-[logos--javascript]" />
-                  <div className="size-8 icon-[logos--git-icon]" />
-                  <div className="size-8 icon-[logos--linux-tux]" />
-                  <div className="size-8 icon-[logos--microsoft-windows-icon]" />
-                  <div className="size-8 icon-[logos--apple]" />
-                  <div className="size-8 icon-[logos--android-icon]" />
-                  <div className="size-8 icon-[logos--ios]" />
+                  {portfolio.technologies.map((technology) => (
+                    <Icon key={technology} name={technology} />
+                  ))}
                 </div>
                 <div>{portfolio.description}</div>
                 <ul className="pl-4 list-disc">
@@ -439,22 +398,14 @@ export default function Home() {
           Contact Me
         </div>
         <div className="flex gap-8 mb-10">
-          <a
-            href="#"
-            className="size-12 icon-[fa6-brands--linkedin] text-[#0b66c2]"
-          />
-          <a
-            href="#"
-            className="size-12 icon-[fa6-brands--upwork] text-[#14A800]"
-          />
-          <a
-            href="#"
-            className="size-12 icon-[fa6-brands--github] text-[#000000]"
-          />
-          <a
-            href="#"
-            className="size-12 icon-[fa6-brands--youtube] text-[#ff0000]"
-          />
+          {socialLinks.map((socialLink) => (
+            <Icon
+              key={socialLink.link}
+              name={socialLink.name}
+              link={socialLink.link}
+              size="large"
+            />
+          ))}
         </div>
         <form
           ref={contactFormRef}
@@ -521,23 +472,13 @@ export default function Home() {
         className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-20 relative`}
       >
         <div className="flex gap-6">
-          {/* <a href="#" className="size-8 icon-[logos--linkedin-icon]" /> */}
-          <a
-            href="#"
-            className="size-8 icon-[fa6-brands--linkedin] text-[#0b66c2]"
-          />
-          <a
-            href="#"
-            className="size-8 icon-[fa6-brands--upwork] text-[#14A800]"
-          />
-          <a
-            href="#"
-            className="size-8 icon-[fa6-brands--github] text-[#000000]"
-          />
-          <a
-            href="#"
-            className="size-8 icon-[fa6-brands--youtube] text-[#ff0000]"
-          />
+          {socialLinks.map((socialLink) => (
+            <Icon
+              key={socialLink.link}
+              name={socialLink.name}
+              link={socialLink.link}
+            />
+          ))}
         </div>
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
