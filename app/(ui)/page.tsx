@@ -356,7 +356,13 @@ export default function Home() {
                 />
               )}
             </div>
-            <div className="z-[2] sm:absolute top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 sm:opacity-0 hover:opacity-90">
+            <div
+              className={`z-[2] ${
+                hasMouse ? "absolute" : ""
+              } top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 ${
+                hasMouse ? "opacity-0 hover:opacity-90" : ""
+              }`}
+            >
               <div
                 className={`${bebasNeue.className} text-4xl sm:text-5xl mb-2`}
               >
@@ -415,9 +421,22 @@ export default function Home() {
           Contact Me
         </div>
         <div className="flex gap-8 mb-10">
-          <a href="#" className="size-12 icon-[logos--linkedin-icon]" />
-          <a href="#" className="size-12 icon-[logos--github-icon]" />
-          <a href="#" className="size-12 icon-[logos--youtube-icon]" />
+          <a
+            href="#"
+            className="size-12 icon-[fa6-brands--linkedin] text-[#0b66c2]"
+          />
+          <a
+            href="#"
+            className="size-12 icon-[fa6-brands--upwork] text-[#14A800]"
+          />
+          <a
+            href="#"
+            className="size-12 icon-[fa6-brands--github] text-[#000000]"
+          />
+          <a
+            href="#"
+            className="size-12 icon-[fa6-brands--youtube] text-[#ff0000]"
+          />
         </div>
         <form
           ref={contactFormRef}
@@ -484,9 +503,23 @@ export default function Home() {
         className={`flex flex-col items-center px-8 py-40 gap-6 bg-white z-20 relative`}
       >
         <div className="flex gap-6">
-          <a href="#" className="size-8 icon-[logos--linkedin-icon]" />
-          <a href="#" className="size-8 icon-[logos--github-icon]" />
-          <a href="#" className="size-8 icon-[logos--youtube-icon]" />
+          {/* <a href="#" className="size-8 icon-[logos--linkedin-icon]" /> */}
+          <a
+            href="#"
+            className="size-8 icon-[fa6-brands--linkedin] text-[#0b66c2]"
+          />
+          <a
+            href="#"
+            className="size-8 icon-[fa6-brands--upwork] text-[#14A800]"
+          />
+          <a
+            href="#"
+            className="size-8 icon-[fa6-brands--github] text-[#000000]"
+          />
+          <a
+            href="#"
+            className="size-8 icon-[fa6-brands--youtube] text-[#ff0000]"
+          />
         </div>
         <div className={`${bebasNeue.className} tracking-[0.2rem]`}>
           KakkoiDev &copy; {new Date().getFullYear()}
@@ -510,11 +543,10 @@ export default function Home() {
             <div
               className={`${
                 t.visible ? "animate-enter" : "animate-leave"
-              } justify-between items-center max-w-sm w-full bg-white shadow-md rounded-md flex px-8 py-4 ${
+              } justify-between items-center max-w-sm w-full bg-white shadow-md flex px-8 py-4 ${
                 t.type === "error" ? "text-red-500" : ""
               } ${t.type === "success" ? "text-green-500" : ""}`}
             >
-              {/* <div dangerouslySetInnerHTML={{ __html: message }}></div> */}
               <div className="flex flex-col">{message}</div>
               <div
                 onClick={() => toast.dismiss(t.id)}
