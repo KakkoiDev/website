@@ -7,7 +7,7 @@ import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
 import { Mesh } from "three";
 import ReactPlayer from "react-player/lazy";
 import { throttle } from "@/lib";
-import { FPS_30 } from "@/data";
+import { FPS_30, portfolioProjects } from "@/data";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast, { Toaster, resolveValue } from "react-hot-toast";
 
@@ -24,9 +24,12 @@ export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
   const [contactSendButtonText, setContactSendButtonText] =
     useState<ContactSendButtonText>("Send");
-  const [isPlaying, setIsPlaying] = useState<boolean[]>([false, false, false]);
+  const [isPlaying, setIsPlaying] = useState<boolean[]>(
+    new Array(portfolioProjects.length).fill(false)
+  );
   const [hasMouse, setHasMouse] = useState<boolean>(false);
   const [hasWindow, setHasWindow] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
 
   const cursorHaloRef = useRef<HTMLDivElement>(null);
   const aboutImageRef = useRef<HTMLImageElement>(null);
@@ -154,7 +157,9 @@ export default function Home() {
       // only start last video, stop the previous ones
       const startPercentage = hasMouse ? 60 : 30;
       const stopPercentage = hasMouse ? 200 : 120;
-      const allPotentiallyPlayingVideos = [false, false, false];
+      const allPotentiallyPlayingVideos = new Array(
+        portfolioProjects.length
+      ).fill(false);
 
       portfolioElementRefs.current.forEach((element, index) => {
         const elementBoundingClientRect = element?.getBoundingClientRect();
@@ -175,7 +180,9 @@ export default function Home() {
 
       const lastPlayingVideoIndex =
         allPotentiallyPlayingVideos.lastIndexOf(true);
-      const currentlyPlayingVideo = [false, false, false];
+      const currentlyPlayingVideo = new Array(portfolioProjects.length).fill(
+        false
+      );
 
       if (lastPlayingVideoIndex !== -1) {
         currentlyPlayingVideo.splice(lastPlayingVideoIndex, 1, true);
@@ -329,7 +336,7 @@ export default function Home() {
         >
           Portfolio
         </div>
-        {[1, 2, 3].map((value, index) => (
+        {portfolioProjects.map((portfolio, index) => (
           <div
             ref={(element) => (portfolioElementRefs.current[index] = element)}
             key={index}
@@ -337,8 +344,8 @@ export default function Home() {
           >
             <div className="pointer-events-none relative aspect-video">
               <Image
-                src={"/portfolio-helloasso.png"}
-                alt={"Portfolio HelloAsso"}
+                src={portfolio.fallbackImage}
+                alt={portfolio.title}
                 width={869}
                 height={484}
                 className="absolute"
@@ -346,19 +353,20 @@ export default function Home() {
               {hasWindow && (
                 <ReactPlayer
                   className="relative z-[1]"
-                  url="/portfolio-helloasso.mp4"
+                  url={portfolio.video}
                   playing={isPlaying[index]}
                   muted={true}
                   loop={true}
                   controls={false}
                   width="100%"
                   height="100%"
+                  onReady={() => setIsVideoReady(true)}
                 />
               )}
             </div>
             <div
-              className={`z-[2] ${
-                hasMouse ? "absolute" : ""
+              className={`${
+                isVideoReady && hasMouse ? "z-[2] absolute" : ""
               } top-0 bottom-0 left-0 right-0 px-8 py-8 overflow-auto text-justify transition bg-white sm:px-12 sm:py-12 ${
                 hasMouse ? "opacity-0 hover:opacity-90" : ""
               }`}
@@ -366,17 +374,33 @@ export default function Home() {
               <div
                 className={`${bebasNeue.className} text-4xl sm:text-5xl mb-2`}
               >
-                Project 1
+                {portfolio.title}
               </div>
-              <a
-                href="#"
-                className="flex items-center mb-6 text-blue-500 hover:underline"
-              >
-                <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
-                <div className="overflow-hidden text-ellipsis">
-                  https://project1.com/dashboard
-                </div>
-              </a>
+              <div className="mb-6">
+                {portfolio.link.map((link) => {
+                  const title =
+                    typeof link === "object" && "title" in link
+                      ? link.title
+                      : link;
+                  const href =
+                    typeof link === "object" && "href" in link
+                      ? link.href
+                      : link;
+                  return (
+                    <a
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      className="flex items-center mb-0 text-blue-500 hover:underline"
+                    >
+                      <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
+                      <div className="overflow-hidden text-ellipsis">
+                        {title}
+                      </div>
+                    </a>
+                  );
+                })}
+              </div>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-wrap justify-center gap-4">
                   <div className="size-8 icon-[logos--linkedin-icon]" />
@@ -394,17 +418,11 @@ export default function Home() {
                   <div className="size-8 icon-[logos--android-icon]" />
                   <div className="size-8 icon-[logos--ios]" />
                 </div>
-                <div>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Aliquid eius, officia incidunt veritatis, ducimus qui aut
-                  debitis nobis, non obcaecati in nesciunt saepe mollitia minima
-                  ratione inventore animi libero eligendi!
-                </div>
+                <div>{portfolio.description}</div>
                 <ul className="pl-4 list-disc">
-                  <li>Task 1</li>
-                  <li>Task 2</li>
-                  <li>Task 3</li>
-                  <li>Task 4</li>
+                  {portfolio.archivements.map((archivement) => (
+                    <li key={archivement}>{archivement}</li>
+                  ))}
                 </ul>
               </div>
             </div>

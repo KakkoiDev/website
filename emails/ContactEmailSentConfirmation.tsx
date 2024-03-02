@@ -27,7 +27,7 @@ export default function Email({
         <Body className="m-0">
           <Container>
             <Img
-              src="https://hcti.io/v1/image/b922fbff-7cb0-4371-8322-c378b5f86d6a"
+              src="https://cdn.kakkoi.dev/email-logo.png"
               alt="KakkoiDev Logo"
               width="260"
               height="81"
