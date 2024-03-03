@@ -30,4 +30,5 @@ export type Icon =
   | "css"
   | "aws ses"
   | "redux"
-  | "nodejs";
+  | "nodejs"
+  | "calendly";

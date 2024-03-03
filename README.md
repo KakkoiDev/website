@@ -9,3 +9,5 @@
 ## Third Party Services
 
 Email sending: https://resend.com
+
+Calendly booking URL: https://calendly.com/kakkoidev/15min

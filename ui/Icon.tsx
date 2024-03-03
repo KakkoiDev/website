@@ -157,6 +157,11 @@ const getIcon = (icon: IconType): { class: string; title: string } => {
         title: "VueJS",
         class: "icon-[logos--vue]",
       };
+    case "calendly":
+      return {
+        title: "Calendly",
+        class: "icon-[simple-icons--calendly] text-[#016bff]",
+      };
     case "youtube":
       return {
         title: "YouTube",
