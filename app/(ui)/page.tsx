@@ -280,17 +280,17 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-2 text-xl">
               <div className="mb-2 text-4xl">What I do</div>
-              <div>
-                <span className="icon-[mdi--application-brackets-outline] size-6 mr-2 top-1 relative" />
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--application-brackets-outline] size-6 mr-2 top-1 relative" />
                 Build high-quality, scalable, and user-fiendly websites and
                 mobile applications.
               </div>
-              <div>
-                <span className="icon-[mdi--bug-outline] size-6 mr-2 top-1 relative" />
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--bug-outline] size-6 mr-2 top-1 relative" />
                 Debug and maintain existing apps.
               </div>
-              <div>
-                <span className="icon-[mdi--account-tie] size-6 mr-2 top-1 relative" />
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--account-tie] size-6 mr-2 top-1 relative" />
                 Lead and mentor teams.
               </div>
             </div>
