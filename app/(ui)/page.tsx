@@ -31,7 +31,9 @@ export default function Home() {
   );
   const [hasMouse, setHasMouse] = useState<boolean>(false);
   const [hasWindow, setHasWindow] = useState(false);
-  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false); // wait for video to load to avoid flicker with portfolio overlay
+  const [isAboutSectionVideoPlaying, setIsAboutSectionVideoPlaying] =
+    useState(false);
 
   const cursorHaloRef = useRef<HTMLDivElement>(null);
   const aboutImageRef = useRef<HTMLImageElement>(null);
@@ -279,20 +281,67 @@ export default function Home() {
               specialized in NextJS, Typescript, and React Native.
             </div>
             <div className="flex flex-col gap-2 text-xl">
+              <div className="mb-2 text-4xl">My achievements</div>
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--application-brackets-outline] size-6 mr-2  top-[2px] relative" />
+                Created from scratch a webapp and a mobile app for a fintech
+                startup.
+              </div>
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--attach-money] size-6 mr-2 top-[2px] relative" />
+                Increased revenue by 10% ($1 million/year) for an online organic
+                retail store by implementing a new payment option.
+              </div>
+              <div className="flex">
+                <div className="shrink-0 icon-[mdi--bug-outline] size-6 mr-2 top-[2px] relative" />
+                Fixed a bug intrinsic to the JavaScript language that was
+                corrupting payment records.
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 text-xl">
               <div className="mb-2 text-4xl">What I do</div>
               <div className="flex">
-                <div className="shrink-0 icon-[mdi--application-brackets-outline] size-6 mr-2 top-1 relative" />
+                <div className="shrink-0 icon-[mdi--application-brackets-outline] size-6 mr-2 top-[2px] relative" />
                 Build high-quality, scalable, and user-friendly websites and
                 mobile applications.
               </div>
               <div className="flex">
-                <div className="shrink-0 icon-[mdi--bug-outline] size-6 mr-2 top-1 relative" />
+                <div className="shrink-0 icon-[mdi--bug-outline] size-6 mr-2 top-[2px] relative" />
                 Debug and maintain existing apps.
               </div>
               <div className="flex">
-                <div className="shrink-0 icon-[mdi--account-tie] size-6 mr-2 top-1 relative" />
+                <div className="shrink-0 icon-[mdi--account-tie] size-6 mr-2 top-[2px] relative" />
                 Lead and mentor teams.
               </div>
+            </div>
+            <div className="bg-gray-300 w-full aspect-video relative">
+              {hasWindow && (
+                <ReactPlayer
+                  url="https://cdn.kakkoi.dev/how-to-make-a-website.mp4"
+                  controls={true}
+                  width="100%"
+                  height="100%"
+                  playing={isAboutSectionVideoPlaying}
+                />
+              )}
+              {!isAboutSectionVideoPlaying && (
+                <>
+                  <Image
+                    src="https://cdn.kakkoi.dev/how-to-make-a-website-thumbnail.png"
+                    alt="How to make a website?"
+                    width={869}
+                    height={484}
+                    className="absolute top-0 cursor-pointer"
+                    onClick={() => setIsAboutSectionVideoPlaying(true)}
+                  />
+                  <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white size-20 rounded-full cursor-pointer"
+                    onClick={() => setIsAboutSectionVideoPlaying(true)}
+                  >
+                    <div className="icon-[mdi--play-circle] size-20 text-black " />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
