@@ -282,7 +282,7 @@ export default function Home() {
               <div className="mb-2 text-4xl">What I do</div>
               <div className="flex">
                 <div className="shrink-0 icon-[mdi--application-brackets-outline] size-6 mr-2 top-1 relative" />
-                Build high-quality, scalable, and user-fiendly websites and
+                Build high-quality, scalable, and user-friendly websites and
                 mobile applications.
               </div>
               <div className="flex">
