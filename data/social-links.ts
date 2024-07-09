@@ -9,4 +9,8 @@ export const socialLinks: SocialLinks[] = [
     name: "upwork",
     link: "https://www.upwork.com/freelancers/~014d271e4dad18b4ee",
   },
+  {
+    name: "github",
+    link: "https://github.com/KakkoiDev",
+  },
 ];
