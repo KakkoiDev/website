@@ -277,7 +277,7 @@ export default function Home() {
           >
             <div className="text-5xl text-center">{`Welcome, I'm Cyril`}</div>
             <div className="text-2xl">
-              A frontend web developer with over 5 years of experience,
+              A frontend web developer with over {new Date().getFullYear() - 2018} years of experience,
               specialized in NextJS, Typescript, and React Native.
             </div>
             <div className="flex flex-col gap-2 text-xl">
