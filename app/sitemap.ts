@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 
-const languages = { en: "https://kakkoi.dev", ja: "https://kakkoi.dev/ja" };
+// Written to a file at build time for the static export.
+export const dynamic = "force-static";
+
+const languages = { en: "https://kakkoi.dev/", ja: "https://kakkoi.dev/ja/" };
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return Object.values(languages).map((url) => ({

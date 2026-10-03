@@ -1,3 +1,4 @@
+import { contentSecurityPolicy } from "@/lib/csp";
 import { fontVariables } from "@/lib/fonts";
 import { localeMetadata } from "@/lib/metadata";
 import "../globals.css";
@@ -12,6 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={fontVariables}>
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
+      </head>
       <body className="font-sans">{children}</body>
     </html>
   );

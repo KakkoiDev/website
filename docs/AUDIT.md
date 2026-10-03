@@ -3,8 +3,12 @@
 > **Superseded in part.** The redesign that followed (see `DESIGN.md`) removed
 > the contact form and its API, the portfolio, projects and experience sections,
 > and the Three.js and video dependencies. The security fixes below that concern
-> those parts no longer apply. The framework upgrade, the security headers,
-> the Japanese version and the business card brief still do.
+> those parts no longer apply. The framework upgrade, the Japanese version
+> and the business card still do. Since the move to GitHub Pages, which cannot
+> send custom headers, only the Content-Security-Policy remains (as a `<meta>`
+> tag); HSTS comes from Pages' Enforce HTTPS, and `frame-ancestors`,
+> `X-Frame-Options` and the other headers are gone. For a static page with no
+> forms or logins, that loses little.
 
 What was found on kakkoi.dev, what is already fixed on this branch, what still
 needs the owner, and the brief for the redesign and the Japanese business cards.
@@ -66,9 +70,7 @@ About video is English-only, and its Japanese alt text says so.
 
 ## Still open: needs the owner
 
-1. **HSTS preload** was deliberately left off: `includeSubDomains; preload`
-   binds every `*.kakkoi.dev` subdomain to HTTPS for years. Add it once every
-   subdomain is confirmed HTTPS-only.
+Nothing on the code side. Keep **Enforce HTTPS** on in the Pages settings.
 
 ## Business card (名刺)
 

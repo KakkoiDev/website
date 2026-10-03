@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { contentSecurityPolicy } from "@/lib/csp";
 import { fontVariables } from "@/lib/fonts";
 import "./globals.css";
 
@@ -16,6 +17,9 @@ const link = "underline hover:text-muted min-h-[44px] flex items-center";
 export default function GlobalNotFound() {
   return (
     <html lang="en" className={fontVariables}>
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
+      </head>
       <body className="font-sans">
         <main className="mx-auto flex min-h-screen max-w-[768px] flex-col justify-center gap-4 px-4 sm:px-6">
           <h1 className="font-display text-[clamp(64px,10vw,104px)] leading-[0.9]">
@@ -29,7 +33,7 @@ export default function GlobalNotFound() {
             <Link className={link} href="/">
               Home
             </Link>
-            <Link className={`${link} font-jp`} href="/ja" lang="ja">
+            <Link className={`${link} font-jp`} href="/ja/" lang="ja">
               ホーム
             </Link>
           </div>

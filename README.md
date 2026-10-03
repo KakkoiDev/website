@@ -19,15 +19,20 @@ languages in step.
 
 ## Deployment
 
-Vercel deploys `main` to production and every pull request to a preview,
-building with Node 22 (`engines` in `package.json`). The production deployment
-must have both `kakkoi.dev` and `www.kakkoi.dev` assigned: the business card's
-QR code opens `https://kakkoi.dev/ja`.
+GitHub Pages, from `.github/workflows/pages.yml`: every push to `main` runs
+`yarn lint` and `yarn build` (a static export to `out/`, Node 22) and publishes
+it. The workflow also reruns on 1 January so the footer year rolls over.
+`public/CNAME` holds the custom domain, `kakkoi.dev`; the business card's QR
+code opens `https://kakkoi.dev/ja`, which Pages answers with `/ja/`.
+
+Repository settings: **Pages → Source: GitHub Actions**, custom domain
+`kakkoi.dev`, **Enforce HTTPS** on.
 
 ## Security
 
-Security headers, including the Content-Security-Policy, are set in
-`next.config.mjs`. Any new third-party origin must be added there. See
+GitHub Pages cannot send custom headers, so the Content-Security-Policy ships
+as a `<meta>` tag built from `lib/csp.ts`. Any new third-party origin must be
+added there. See
 `docs/AUDIT.md` for the October 2026 audit.
 
 ## Business card

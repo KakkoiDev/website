@@ -21,7 +21,7 @@ const en: Dictionary = {
     description:
       "Cyril Antoni. I fix problems, and I help others get better at fixing problems.",
   },
-  nav: { logo: "KakkoiDev", switchLabel: "日本語", switchHref: "/ja" },
+  nav: { logo: "KakkoiDev", switchLabel: "日本語", switchHref: "/ja/" },
   hero: {
     name: "Cyril Antoni",
     altName: "キリル アントニ",
