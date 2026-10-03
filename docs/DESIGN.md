@@ -90,10 +90,11 @@ errors or CSP violations, no sideways scroll, the right `<html lang>`, the
 language switch goes to the other page, no lone Japanese character at the end
 of a line at 390px, and a still cube with reduced motion on.
 
-`next start` keeps serving the previous build until it is restarted. Vercel
-can refuse to deploy commits whose author is not on the Vercel team, which
-looks like an instant, log-less build failure; squash-merging through GitHub
-attributes the commit to the owner.
+`next start` keeps serving the previous build until it is restarted.
+
+Vercel builds with the Node version in `package.json` `engines` (22.x). Next 16
+needs Node 20.9 or newer; before that pin, a preview failed instantly with no
+build log.
 
 ## History
 
