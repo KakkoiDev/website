@@ -13,6 +13,8 @@ component `components/Home.tsx`.
 
 - `data/dictionary.ts`: every visible string and the page metadata, in `en` and `ja`
 - `data/social-links.ts`: the contact email and profile links
+- `data/links.ts`: the projects on `/links` (English only); link the live site
+  when there is one, the repository otherwise
 
 See `docs/DESIGN.md` for the approved design and the rules that keep both
 languages in step.
