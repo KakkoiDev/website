@@ -2,7 +2,10 @@ const isDev = process.env.NODE_ENV !== "production";
 
 // GitHub Pages cannot send custom response headers, so the policy ships as a
 // <meta http-equiv> tag in each root layout. A meta policy cannot carry
-// frame-ancestors; everything else applies as it would from a header.
+// frame-ancestors; everything else applies as it would from a header. There is
+// no upgrade-insecure-requests: Pages' Enforce HTTPS already serves everything
+// over HTTPS, and before its certificate exists the directive breaks every
+// asset of a page opened over http.
 // Next.js inlines its bootstrap scripts, hence 'unsafe-inline'. Fonts are
 // self-hosted by next/font, so nothing loads from another origin.
 export const contentSecurityPolicy = [
@@ -15,5 +18,4 @@ export const contentSecurityPolicy = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  ...(isDev ? [] : ["upgrade-insecure-requests"]),
 ].join("; ");
