@@ -16,7 +16,7 @@ export const portfolioProjects: PortfolioProjects = [
     video: "https://cdn.kakkoi.dev/portfolio-theseus-ai.mp4",
     description:
       "Developed with a team of 4 engineers, using the Agile methodology, an AI platform to extract financial intelligence from conversations. The platform processes audio files through our AI system to generate a transcript and a detailed explanation about what was said and what are the followup tasks to accomplish.",
-    archivements: [
+    achievements: [
       "Built 80% of the frontend",
       "Helped to design and implement the whole architecture of the project",
       "Tested the app with Playwright",
@@ -48,7 +48,7 @@ export const portfolioProjects: PortfolioProjects = [
     video: "https://cdn.kakkoi.dev/portfolio-theseus-ai-mobile.mp4",
     description:
       "The companion app of TheseusAI. It is designed to record the audio of meetings and send them over to the AI platform. The app has been tested to make sure it would not stop recording even when receiving a call or locking the phone for an extended period of time. It can reliably send files even when in bad network conditions thanks to the implementation of resumable upload and background tasks.",
-    archivements: [
+    achievements: [
       "Coded the whole app from scratch",
       "Implemented resumable uploads",
       "Added a background service to retry uploads as soon as the phone turns on",
@@ -70,9 +70,9 @@ export const portfolioProjects: PortfolioProjects = [
     video: "https://cdn.kakkoi.dev/portfolio-la-fourche.mp4",
     description:
       'Worked with a team of 11 engineers, 2 product owners and 1 tester, using the Scrum methodology, to improve the shopping cart and checkout of the organic online retail store "La Fourche".',
-    archivements: [
+    achievements: [
       "Increased sales by 10% by implementing a PayPal payment option",
-      "Gave advices about best practices and helped the team to mature technically",
+      "Advised on best practices and helped the team to mature technically",
     ],
   },
   {
@@ -91,7 +91,7 @@ export const portfolioProjects: PortfolioProjects = [
     video: "https://cdn.kakkoi.dev/portfolio-helloasso.mp4",
     description:
       "Developed with a team of 5 engineers and 1 product owner, using the Scrum methodology, to improve the dashboard and payment journey of the biggest platform to find associations and run ticketing and crowdfunding in France. Basically, the scope of the team was from the moment the user logs in, until the moment he confirms a payment.",
-    archivements: [
+    achievements: [
       "Overcame JavaScript's timezone bug with a robust wrapper, streamlining date and time handling and enhancing developer productivity",
       "Created an Electron application to help the product owner to record end-to-end tests with Playwright",
     ],

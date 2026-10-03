@@ -7,5 +7,5 @@ export type PortfolioProjects = {
   fallbackImage: string;
   video: string;
   description: string;
-  archivements: string[];
+  achievements: string[];
 }[];

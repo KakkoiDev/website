@@ -42,14 +42,11 @@ export default function Email({
             </Heading>
             <Text className="text-lg">Email: {email}</Text>
             <Text className="text-lg">Message:</Text>
-            <Text
-              className="text-lg"
-              dangerouslySetInnerHTML={{
-                __html: message?.replaceAll("\n", "<br>"),
-              }}
-            />
+            {/* Visitor text is rendered as text, never as HTML. */}
+            <Text className="text-lg whitespace-pre-wrap">{message}</Text>
             <Text className="text-center text-lg">
-              <Link href="https://kakkoi.dev">KakkoiDev</Link> &copy; 2024
+              <Link href="https://kakkoi.dev">KakkoiDev</Link> &copy;{" "}
+              {new Date().getFullYear()}
             </Text>
           </Container>
         </Body>

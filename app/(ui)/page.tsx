@@ -2,12 +2,12 @@
 
 import Image from "next/image";
 import { Bebas_Neue } from "next/font/google";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Canvas, useFrame, ThreeElements } from "@react-three/fiber";
 import { Mesh } from "three";
 import ReactPlayer from "react-player/lazy";
 import { throttle } from "@/lib";
-import { FPS_30, portfolioProjects } from "@/data";
+import { FPS_30, portfolioProjects, projects } from "@/data";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast, { Toaster, resolveValue } from "react-hot-toast";
 import { Icon } from "@/ui";
@@ -16,11 +16,14 @@ import { socialLinks } from "@/data/social-links";
 type ContactMessage = {
   email: string;
   message: string;
+  website: string; // honeypot, hidden from people
 };
 
 type ContactSendButtonText = "Send" | "Sending";
 
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"] });
+
+const noopSubscribe = () => () => {};
 
 export default function Home() {
   const [isCTAButtonActive, setIsCTAButtonActive] = useState(false);
@@ -29,8 +32,17 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState<boolean[]>(
     new Array(portfolioProjects.length).fill(false)
   );
-  const [hasMouse, setHasMouse] = useState<boolean>(false);
-  const [hasWindow, setHasWindow] = useState(false);
+  // false on the server and during hydration, the real value after it
+  const hasMouse = useSyncExternalStore(
+    noopSubscribe,
+    () => !window.matchMedia("(any-hover: none)").matches,
+    () => false
+  );
+  const hasWindow = useSyncExternalStore(
+    noopSubscribe,
+    () => true,
+    () => false
+  ); // react-player must not render on the server
   const [isVideoReady, setIsVideoReady] = useState(false); // wait for video to load to avoid flicker with portfolio overlay
   const [isAboutSectionVideoPlaying, setIsAboutSectionVideoPlaying] =
     useState(false);
@@ -51,15 +63,13 @@ export default function Home() {
   const onSubmitMessage: SubmitHandler<ContactMessage> = async (data) => {
     try {
       setContactSendButtonText("Sending");
-      console.log(data);
       const response = await fetch("/api/email/send", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      const hasError = !response.ok || Boolean((await response.json()).error);
-
-      if (hasError) {
+      if (!response.ok) {
         toast.error("The message was not sent!\nPlease try again later.");
         setContactSendButtonText("Send");
         return;
@@ -68,7 +78,7 @@ export default function Home() {
       reset();
       setContactSendButtonText("Send");
       toast.success(
-        "Message sent!\nA confirmation will be sent to your email."
+        "Message sent!\nI'll get back to you within 2 business days."
       );
     } catch (error) {
       toast.error("The message was not sent!\nMake sure you are online.");
@@ -94,9 +104,9 @@ export default function Home() {
 
     const moveCursorHalo = (event: MouseEvent) => {
       if (!cursorHaloRef.current) return;
-      const cursorHaloHeiht = cursorHaloRef.current.clientHeight;
-      const yPosition = event.clientY - cursorHaloHeiht / 2;
-      const xPosition = event.clientX - cursorHaloHeiht / 2;
+      const cursorHaloHeight = cursorHaloRef.current.clientHeight;
+      const yPosition = event.clientY - cursorHaloHeight / 2;
+      const xPosition = event.clientX - cursorHaloHeight / 2;
 
       cursorHaloRef.current.style.top = String(yPosition) + "px";
       cursorHaloRef.current.style.left = String(xPosition) + "px";
@@ -119,12 +129,12 @@ export default function Home() {
   }, [hasMouse]);
 
   useEffect(() => {
-    const initializeSevicesSection = throttle(() => {
+    const initializeAboutSection = throttle(() => {
       const imageBottom = aboutImageRef.current?.getBoundingClientRect().bottom;
       const windowHeight = window.innerHeight;
 
-      if (typeof imageBottom !== undefined && imageBottom! - windowHeight < 0) {
-        window.removeEventListener("scroll", initializeSevicesSection);
+      if (imageBottom !== undefined && imageBottom - windowHeight < 0) {
+        window.removeEventListener("scroll", initializeAboutSection);
         aboutImageRef.current?.classList.add("fade-out-image");
         aboutBlockRef.current?.classList.remove("slide-up-block-hide");
         aboutBlockRef.current?.classList.add("slide-up-block-animate");
@@ -134,23 +144,12 @@ export default function Home() {
     const imageBottom = aboutImageRef.current?.getBoundingClientRect().bottom;
     const windowHeight = window.innerHeight;
 
-    if (typeof imageBottom !== undefined && imageBottom! - windowHeight < 0) {
-      initializeSevicesSection();
+    if (imageBottom !== undefined && imageBottom - windowHeight < 0) {
+      initializeAboutSection();
     } else {
-      window.addEventListener("scroll", initializeSevicesSection);
+      window.addEventListener("scroll", initializeAboutSection);
     }
-    return () => window.removeEventListener("scroll", initializeSevicesSection);
-  }, []);
-
-  useEffect(() => {
-    if (!window.matchMedia("(any-hover: none)").matches) setHasMouse(true);
-  }, []);
-
-  // fix react-player hydration error
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setHasWindow(true);
-    }
+    return () => window.removeEventListener("scroll", initializeAboutSection);
   }, []);
 
   // react-player scroll event listener
@@ -209,7 +208,8 @@ export default function Home() {
         </a>
         <div className="flex items-center">
           <div className="hidden gap-2 mr-4 sm:flex">
-            <a href="#about">About</a>|<a href="#portfolio">Portfolio</a>
+            <a href="#about">About</a>|<a href="#portfolio">Portfolio</a>|
+            <a href="#projects">Projects</a>
           </div>
           <a
             href="#contact"
@@ -235,9 +235,9 @@ export default function Home() {
         <Canvas className="!absolute">
           <Box position={[0, 0, 0]} />
         </Canvas>
-        <div className="text-5xl sm:text-6xl mb-14 tracking-[0.2rem]">
+        <h1 className="text-5xl sm:text-6xl mb-14 tracking-[0.2rem]">
           KakkoiDev Studio
-        </div>
+        </h1>
         <div className="text-7xl sm:text-8xl">Web & App</div>
         <div className="text-6xl sm:text-7xl tracking-[0.4rem]">
           Development
@@ -257,11 +257,11 @@ export default function Home() {
         id="about"
         className={`min-h-screen flex flex-col items-center px-8 py-40 bg-white text-justify`}
       >
-        <div
+        <h2
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-12`}
         >
           About
-        </div>
+        </h2>
         <div className="relative w-full max-w-xl">
           <Image
             ref={aboutImageRef}
@@ -334,12 +334,14 @@ export default function Home() {
                     className="absolute top-0 cursor-pointer"
                     onClick={() => setIsAboutSectionVideoPlaying(true)}
                   />
-                  <div
+                  <button
+                    type="button"
+                    aria-label="Play the video"
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white size-20 rounded-full cursor-pointer"
                     onClick={() => setIsAboutSectionVideoPlaying(true)}
                   >
                     <div className="icon-[mdi--play-circle] size-20 text-black " />
-                  </div>
+                  </button>
                 </>
               )}
             </div>
@@ -350,14 +352,16 @@ export default function Home() {
         id="portfolio"
         className={`min-h-screen flex flex-col items-center py-40 gap-20 bg-gray-50`}
       >
-        <div
+        <h2
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem]`}
         >
           Portfolio
-        </div>
+        </h2>
         {portfolioProjects.map((portfolio, index) => (
           <div
-            ref={(element) => (portfolioElementRefs.current[index] = element)}
+            ref={(element) => {
+              portfolioElementRefs.current[index] = element;
+            }}
             key={index}
             className="bg-gray-300 max-w-[860px] text-lg w-full sm:aspect-video shadow-md overflow-hidden relative"
           >
@@ -410,6 +414,7 @@ export default function Home() {
                       key={href}
                       href={href}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center mb-0 text-blue-500 hover:underline"
                     >
                       <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
@@ -428,8 +433,8 @@ export default function Home() {
                 </div>
                 <div>{portfolio.description}</div>
                 <ul className="pl-4 list-disc">
-                  {portfolio.archivements.map((archivement) => (
-                    <li key={archivement}>{archivement}</li>
+                  {portfolio.achievements.map((achievement) => (
+                    <li key={achievement}>{achievement}</li>
                   ))}
                 </ul>
               </div>
@@ -438,14 +443,71 @@ export default function Home() {
         ))}
       </div>
       <div
+        id="projects"
+        className="flex flex-col items-center px-8 py-40 gap-12 bg-white"
+      >
+        <h2
+          className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] text-center`}
+        >
+          Recent Projects
+        </h2>
+        <p className="max-w-xl text-xl text-center">
+          Products and open-source tools I design and build on my own time.
+        </p>
+        <ul className="grid w-full max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <li
+              key={project.title}
+              className="flex flex-col gap-4 p-8 shadow-md bg-gray-50"
+            >
+              <h3 className={`${bebasNeue.className} text-4xl`}>
+                {project.title}
+              </h3>
+              <p className="grow">{project.description}</p>
+              <ul className="flex flex-wrap gap-2 text-sm">
+                {project.tags.map((tag) => (
+                  <li key={tag} className="px-2 py-1 bg-white border">
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex flex-wrap gap-4">
+                {project.url && (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-blue-500 hover:underline"
+                  >
+                    <div className="size-6 icon-[mdi--external-link] mr-2 shrink-0" />
+                    Visit
+                  </a>
+                )}
+                {project.repo && (
+                  <a
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center text-blue-500 hover:underline"
+                  >
+                    <div className="size-6 icon-[fa6-brands--github] mr-2 shrink-0" />
+                    Source
+                  </a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div
         id="contact"
         className={`bg-dotted min-h-screen flex flex-col items-center px-8 py-40`}
       >
-        <div
+        <h2
           className={`${bebasNeue.className} text-6xl sm:text-7xl tracking-[0.4rem] mb-12`}
         >
           Contact Me
-        </div>
+        </h2>
         <div className="flex gap-8 mb-10">
           {socialLinks.map((socialLink) => (
             <Icon
@@ -463,7 +525,18 @@ export default function Home() {
           noValidate={true}
         >
           <input
+            type="text"
+            tabIndex={-1}
+            autoComplete="off"
+            aria-hidden="true"
+            className="absolute -left-[10000px] size-px overflow-hidden"
+            {...register("website")}
+          />
+          <input
             type="email"
+            aria-label="Your email"
+            autoComplete="email"
+            maxLength={254}
             className={`${
               errors.email ? "outline outline-red-500" : ""
             } w-full px-8 py-4 mb-8 text-lg shadow-md`}
@@ -482,6 +555,8 @@ export default function Home() {
             </div>
           )}
           <textarea
+            aria-label="Your message"
+            maxLength={5000}
             placeholder="Enter your message..."
             cols={30}
             rows={10}
@@ -556,7 +631,9 @@ export default function Home() {
               } ${t.type === "success" ? "text-green-500" : ""}`}
             >
               <div className="flex flex-col">{message}</div>
-              <div
+              <button
+                type="button"
+                aria-label="Dismiss"
                 onClick={() => toast.dismiss(t.id)}
                 className="size-6 icon-[mdi--close] cursor-pointer"
               />
