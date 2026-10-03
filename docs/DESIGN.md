@@ -44,31 +44,38 @@ gradients, no textures.
 One centered column, 720px of content, gutters 16px on phones and 24px from
 640px up. Every link is at least 44px tall.
 
-| Element | `/` | `/ja` |
-| --- | --- | --- |
-| Header height | 64px | 56px |
-| Hero padding | 160px top, 170px bottom | 110px top, 120px bottom |
-| `<h1>` (the name) | Bebas, `clamp(64px, 10vw, 104px)`, line-height .9 | Noto 700, 34px, letter-spacing .06em |
-| Alternate name | Noto 14px, letter-spacing .3em | Bebas 22px, letter-spacing .06em |
-| Title | Inter 500, 17px | Noto 500, 15px |
-| Section | 40px vertical padding, 1px top rule | 32px, same rule |
-| `<h2>` | Bebas 32px, letter-spacing .02em | Noto 700, 18px |
-| What-I-do lines | Inter 600, 22px, 20px apart | Noto 700, 18px, line-height 1.6, 18px apart |
-| Contact links | in a row, 28px apart, 16px | stacked, 15px |
+Both languages share one scale (owner decision, after launch): every element
+has the same size and spacing in English and Japanese. The only exception is
+the name, because condensed Bebas Neue needs more pixels than Noto Sans JP to
+read as the same size.
 
-The per-language values are the `styles` map in `components/Home.tsx`.
+| Element | Both | `/` font | `/ja` font |
+| --- | --- | --- | --- |
+| Header height | 64px | | |
+| Hero padding | 128px top, 136px bottom | | |
+| `<h1>` (the name) | | Bebas, `clamp(56px, 9vw, 80px)`, line-height .9 | Noto 700, `clamp(34px, 5vw, 44px)`, letter-spacing .06em |
+| Alternate name | | Noto 14px, letter-spacing .3em | Bebas 20px, letter-spacing .06em |
+| Title | 16px, weight 500 | Inter | Noto |
+| Section | 36px vertical padding, 1px top rule | | |
+| `<h2>` | | Bebas 28px | Noto 700, 20px |
+| What-I-do lines | 20px, 18px apart | Inter 600, line-height 1.4 | Noto 700, line-height 1.6 |
+| Contact links | in a row, 28px apart, 16px | Inter | Inter |
+
+The values are the `shared` and `styles` objects in `components/Home.tsx`.
 
 **The cube** is pure CSS (`app/globals.css`): six bordered faces in a
 `preserve-3d` box, turning once every 30s, behind the hero text, `aria-hidden`.
-It is 420px on the English page from 600px wide up, and 240px on phones and on
-`/ja`. It deliberately spills below the hero, behind the first rule; the hero
-clips it horizontally so it can never widen the page. With
-`prefers-reduced-motion` it stands still at a fixed angle.
+It is 420px from 600px wide up and 240px on phones, in both languages. It deliberately spills below the hero, behind the first rule, and its
+layer spans the full viewport so it runs to the screen edge; `html` and `body`
+clip horizontal overflow so it never widens the page. With
+`prefers-reduced-motion` it keeps turning at a quarter of the speed (one turn
+every 120s): the owner preferred that to a still cube.
 
 ## Rules
 
 1. Both languages, always. No string in a component.
-2. Japanese keeps its own type scale and phrase-based line breaks.
+2. Both languages keep the shared scale above, and Japanese keeps its
+   phrase-based line breaks.
 3. No third-party origins: the CSP in `lib/csp.ts` allows this origin only.
    Fonts go through `next/font`.
 4. Exactly one `<h1>` (the name), an `<h2>` per section, links with

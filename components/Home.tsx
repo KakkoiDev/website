@@ -3,47 +3,43 @@ import { contactEmail, dictionary, socialLinks } from "@/data";
 import { Phrases } from "@/data/dictionary";
 import { Locale } from "@/type";
 
-// One server component for both languages. English and Japanese share the
-// structure but not the type scale: Japanese never uses Bebas Neue and gets
-// tighter spacing, because /ja is mostly opened on a phone from the 名刺 QR code.
+// One server component for both languages, on one shared scale: every
+// element has the same size in English and Japanese, except the name, where
+// condensed Bebas Neue needs more pixels than Noto Sans JP to read as the same
+// size. Japanese never uses Bebas Neue.
+const shared = {
+  gutter: "px-4 sm:px-6",
+  header: "h-16",
+  logo: "text-2xl",
+  hero: "pt-[128px] pb-[136px] gap-10",
+  cube: "cube cube-lg",
+  heroText: "gap-[10px]",
+  title: "text-[16px] font-medium",
+  section: "py-9",
+  contactSection: "pt-9 pb-16",
+  items: "gap-[18px]",
+  links: "flex-row flex-wrap gap-x-7 gap-y-2 text-[16px]",
+  footer: "pb-8 text-[13px]",
+};
+
 const styles = {
   en: {
-    gutter: "px-4 sm:px-6",
-    header: "h-16",
-    logo: "text-2xl",
+    ...shared,
     switch: "font-jp",
-    hero: "pt-[160px] pb-[170px] gap-12",
-    cube: "cube cube-lg",
-    heroText: "gap-[10px]",
-    name: "font-display font-normal text-[clamp(64px,10vw,104px)] leading-[0.9] tracking-[0.01em]",
+    name: "font-display font-normal text-[clamp(56px,9vw,80px)] leading-[0.9] tracking-[0.01em]",
     altName: "font-jp text-[14px] tracking-[0.3em]",
-    title: "text-[17px] font-medium",
-    section: "py-10",
-    contactSection: "pt-10 pb-[72px]",
-    h2: "mb-4 font-display font-normal text-[32px] tracking-[0.02em]",
-    items: "gap-5",
-    item: "text-[22px] font-semibold leading-[1.35]",
-    links: "flex-row flex-wrap gap-x-7 gap-y-2 text-[16px]",
-    footer: "pb-8 text-[13px]",
+    h2: "mb-4 font-display font-normal text-[28px] tracking-[0.02em]",
+    item: "text-[20px] font-semibold leading-[1.4]",
   },
   ja: {
-    gutter: "px-4 sm:px-6",
-    header: "h-14",
-    logo: "text-[22px]",
+    ...shared,
     switch: "font-sans px-1",
-    hero: "pt-[110px] pb-[120px] gap-8",
-    cube: "cube",
-    heroText: "gap-2",
-    name: "font-jp font-bold text-[34px] leading-[1.25] tracking-[0.06em]",
-    altName: "font-display text-[22px] tracking-[0.06em]",
-    title: "mt-1 text-[15px] font-medium",
-    section: "py-8",
-    contactSection: "pt-8 pb-14",
-    h2: "mb-[14px] font-jp font-bold text-[18px]",
-    items: "gap-[18px]",
-    item: "text-[18px] font-bold leading-[1.6]",
-    links: "flex-col font-sans text-[15px]",
-    footer: "pb-7 font-sans text-[12px]",
+    name: "font-jp font-bold text-[clamp(34px,5vw,44px)] leading-[1.25] tracking-[0.06em]",
+    altName: "font-display text-[20px] tracking-[0.06em]",
+    h2: "mb-4 font-jp font-bold text-[20px]",
+    item: "text-[20px] font-bold leading-[1.6]",
+    links: `${shared.links} font-sans`,
+    footer: `${shared.footer} font-sans`,
   },
 };
 

@@ -76,9 +76,11 @@ body {
   }
 }
 
+/* With Reduce Motion on, the cube still turns, but four times slower: one
+   turn every two minutes is ambient, not attention-grabbing. The owner chose
+   this over a still cube, which is what most phones with the setting on saw. */
 @media (prefers-reduced-motion: reduce) {
   .cube {
-    animation: none;
-    transform: rotateX(-24deg) rotateY(38deg);
+    animation-duration: 120s;
   }
 }
