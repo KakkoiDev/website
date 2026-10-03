@@ -69,20 +69,24 @@ clips it horizontally so it can never widen the page. With
 
 1. Both languages, always. No string in a component.
 2. Japanese keeps its own type scale and phrase-based line breaks.
-3. No third-party origins: the CSP in `next.config.mjs` allows this origin
-   only. Fonts go through `next/font`.
+3. No third-party origins: the CSP in `lib/csp.ts` allows this origin only.
+   Fonts go through `next/font`.
 4. Exactly one `<h1>` (the name), an `<h2>` per section, links with
    accessible names, `rel="noopener noreferrer"` on `target="_blank"`.
 5. Keep `lib/metadata.ts` (canonical, hreflang, Open Graph), the bilingual
    sitemap, and one root layout per language so `<html lang>` is right.
 6. The page is a server component and needs no client JavaScript of its own.
    Keep it that way unless a feature truly needs it.
+7. The site is a static export for GitHub Pages: no API routes, no server
+   features, no `revalidate`. Internal links end in `/` (`/ja/`), because
+   `trailingSlash` is on.
 
 ## Checking a change
 
 ```sh
 yarn lint
-yarn build && yarn start
+yarn build                                   # writes out/
+python3 -m http.server 3000 --directory out  # serves it like Pages
 ```
 
 Then, in a real browser, on `/` and `/ja` at 390px and 1280px: no console
@@ -90,11 +94,7 @@ errors or CSP violations, no sideways scroll, the right `<html lang>`, the
 language switch goes to the other page, no lone Japanese character at the end
 of a line at 390px, and a still cube with reduced motion on.
 
-`next start` keeps serving the previous build until it is restarted.
-
-Vercel builds with the Node version in `package.json` `engines` (22.x). Next 16
-needs Node 20.9 or newer; before that pin, a preview failed instantly with no
-build log.
+Deployment is GitHub Pages; see the README.
 
 ## History
 

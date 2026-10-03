@@ -1,3 +1,4 @@
+import { contentSecurityPolicy } from "@/lib/csp";
 import { fontVariables } from "@/lib/fonts";
 import { localeMetadata } from "@/lib/metadata";
 import "../globals.css";
@@ -11,6 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={fontVariables}>
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
+      </head>
       <body className="font-jp">{children}</body>
     </html>
   );

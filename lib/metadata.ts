@@ -3,7 +3,7 @@ import { dictionary } from "@/data";
 import { Locale } from "@/type";
 
 const SITE_URL = "https://kakkoi.dev";
-const PATHS: Record<Locale, string> = { en: "/", ja: "/ja" };
+const PATHS: Record<Locale, string> = { en: "/", ja: "/ja/" };
 
 export function localeMetadata(locale: Locale): Metadata {
   const { meta, hero } = dictionary[locale];
