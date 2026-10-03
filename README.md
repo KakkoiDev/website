@@ -17,6 +17,13 @@ component `components/Home.tsx`.
 See `docs/DESIGN.md` for the approved design and the rules that keep both
 languages in step.
 
+## Deployment
+
+Vercel deploys `main` to production and every pull request to a preview,
+building with Node 22 (`engines` in `package.json`). The production deployment
+must have both `kakkoi.dev` and `www.kakkoi.dev` assigned: the business card's
+QR code opens `https://kakkoi.dev/ja`.
+
 ## Security
 
 Security headers, including the Content-Security-Policy, are set in
