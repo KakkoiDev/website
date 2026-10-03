@@ -13,7 +13,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       alternates: { languages },
     })),
-    // English only.
+    // English only. /now's list of recent work changes with the weekly build.
     { url: "https://kakkoi.dev/links/", changeFrequency: "monthly", priority: 0.8 },
+    { url: "https://kakkoi.dev/now/", changeFrequency: "weekly", priority: 0.6 },
+    { url: "https://kakkoi.dev/nihongo/", changeFrequency: "monthly", priority: 0.8 },
   ];
 }
