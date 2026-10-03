@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { contactEmail, dictionary, socialLinks } from "@/data";
 import { Phrases } from "@/data/dictionary";
 import { Locale } from "@/type";
@@ -76,14 +77,15 @@ export default function Home({ locale }: { locale: Locale }) {
         >
           {t.nav.logo}
         </a>
-        <a
+        {/* Link, not <a>, so the href picks up the base path. */}
+        <Link
           href={t.nav.switchHref}
           lang={other}
           hrefLang={other}
           className={`text-[14px] ${link} ${s.switch}`}
         >
           {t.nav.switchLabel}
-        </a>
+        </Link>
       </header>
 
       <main className={column}>

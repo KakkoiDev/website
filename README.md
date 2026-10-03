@@ -22,8 +22,11 @@ languages in step.
 GitHub Pages, from `.github/workflows/pages.yml`: every push to `main` runs
 `yarn lint` and `yarn build` (a static export to `out/`, Node 22) and publishes
 it. The workflow also reruns on 1 January so the footer year rolls over.
-`public/CNAME` holds the custom domain, `kakkoi.dev`; the business card's QR
-code opens `https://kakkoi.dev/ja`, which Pages answers with `/ja/`.
+The build asks Pages where it serves the site and prefixes every path with
+that (`basePath`): `/website` at `kakkoidev.github.io/website/`, nothing once
+the custom domain is set. After changing the domain, rerun the workflow
+(Actions → Deploy to GitHub Pages → Run workflow). The business card's QR code
+opens `https://kakkoi.dev/ja`, which Pages answers with `/ja/`.
 
 Repository settings: **Pages → Source: GitHub Actions**, custom domain
 `kakkoi.dev`, **Enforce HTTPS** on.
