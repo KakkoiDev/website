@@ -75,6 +75,12 @@ export const linkGroups: LinkGroup[] = [
         href: "https://schness.com",
         description: "A 4×4 chess variant with AI opponents.",
       },
+      {
+        name: "QR Generator",
+        href: "https://qr.kakkoi.dev",
+        description:
+          "Make a QR code as you type, share it by URL and download it as SVG.",
+      },
     ],
   },
   {
