@@ -28,3 +28,28 @@ export function localeMetadata(locale: Locale): Metadata {
     twitter: { card: "summary", title, description, images: ["/cyril.jpg"] },
   };
 }
+
+// The English-only pages (/links, /now, /nihongo): no hreflang alternates, and
+// their own title in every preview rather than the home page's.
+export function englishPageMetadata(
+  path: string,
+  title: string,
+  description: string,
+): Metadata {
+  const image = { url: "/cyril.jpg", alt: dictionary.en.hero.name };
+  return {
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: {
+      type: "website",
+      url: `${SITE_URL}${path}`,
+      siteName: "KakkoiDev",
+      locale: "en_US",
+      title,
+      description,
+      images: [image],
+    },
+    twitter: { card: "summary", title, description, images: [image.url] },
+  };
+}

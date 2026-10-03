@@ -1,4 +1,4 @@
-import Links from "@/components/Links";
+import Now from "@/components/Now";
 import { englishPageMetadata } from "@/lib/metadata";
 
 // lib/github.ts reads GitHub afresh at every build (no fetch cache, so a local
@@ -7,11 +7,11 @@ import { englishPageMetadata } from "@/lib/metadata";
 export const dynamic = "force-static";
 
 export const metadata = englishPageMetadata(
-  "/links/",
-  "Links | kakkoi.dev",
-  "Cyril Antoni's projects: KakkoiSchool, Japanese learning tools, apps and AI developer tools.",
+  "/now/",
+  "Now | kakkoi.dev",
+  "What Cyril Antoni is working on now: teaching, tools for learning Japanese, and AI coding agents.",
 );
 
 export default function Page() {
-  return <Links />;
+  return <Now />;
 }
