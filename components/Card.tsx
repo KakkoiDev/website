@@ -51,7 +51,7 @@ export default function Card() {
 
         <div className="mt-4 flex flex-wrap justify-center gap-x-7 text-[16px]">
           {/* A file in public/, so the base path is added by hand. */}
-          <a href={withBasePath(vcardPath)} download className={link}>
+          <a href={withBasePath(vcardPath)} className={link}>
             {card.addToContacts.en}
             <span aria-hidden="true" className="px-2">
               /

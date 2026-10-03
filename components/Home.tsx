@@ -153,10 +153,11 @@ export default function Home({ locale }: { locale: Locale }) {
                 {label}
               </a>
             ))}
-            {/* A file in public/, so the base path is added by hand. */}
+            {/* A file in public/, so the base path is added by hand. No
+                download attribute: served as text/vcard, a phone opens the
+                contact card directly instead of saving a file. */}
             <a
               href={withBasePath(vcardPath)}
-              download
               lang={locale === "ja" ? "ja" : undefined}
               className={`${link} ${s.vcard}`}
             >

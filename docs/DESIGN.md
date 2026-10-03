@@ -73,25 +73,48 @@ every 120s): the owner preferred that to a still cube.
 
 ## Rules
 
-1. Both languages, always. No string in a component. The one exception is
-   `/links` (`components/Links.tsx`, content in `data/links.ts`): English only
-   by the owner's choice, a page to share directly, not linked from the home
-   page. Each entry links to the project's live site when there is one,
-   otherwise to its repository.
+1. Both languages, always. No string in a component. Exceptions, by the
+   owner's choice:
+   - English only, on one shared shell (`components/SubPage.tsx`: the home
+     page's header, column and footer), no hreflang, metadata from
+     `englishPageMetadata()`: `/links` (`data/links.ts`, shared directly, not
+     linked from home), `/now` (`data/now.ts`, linked from `/links`) and
+     `/nihongo` (`data/nihongo.ts`, the Japanese learning hub, linked from
+     the Japanese group on `/links`). Japanese inside their text carries
+     `lang="ja"`.
+   - `/card` (`components/Card.tsx`, `data/card.ts`) shows both languages on
+     one page, like the 404: it is the digital 名刺 shown on a phone, so the
+     reader may read either. `noindex`, not in the sitemap, not linked. It
+     must fit a 390x844 screen without scrolling.
+   - Text read from GitHub (the "More projects" group on `/links`, "Recently
+     updated" on `/now`) is shown as written in each repo's Description, minus
+     em-dashes. Fix wording on GitHub, not here.
 2. Both languages keep the shared scale above, and Japanese keeps its
    phrase-based line breaks.
 3. No third-party origins: the CSP in `lib/csp.ts` allows this origin only.
-   Fonts go through `next/font`.
-4. Exactly one `<h1>` (the name), an `<h2>` per section, links with
+   Fonts go through `next/font`. The one exception is GoatCounter analytics,
+   and only while a code is set in `data/analytics.ts`: then the CSP opens
+   `https://CODE.goatcounter.com` for `connect-src` and `img-src`. With `null`
+   the policy is unchanged.
+4. Exactly one `<h1>` per page, an `<h2>` per section, links with
    accessible names, `rel="noopener noreferrer"` on `target="_blank"`.
-5. Keep `lib/metadata.ts` (canonical, hreflang, Open Graph), the bilingual
-   sitemap, and one root layout per language so `<html lang>` is right.
-6. The page is a server component and needs no client JavaScript of its own.
-   Keep it that way unless a feature truly needs it.
+5. Keep `lib/metadata.ts` (canonical, hreflang, Open Graph, the share images
+   `/og.png` and `/og-ja.png`), the sitemap, and one root layout per language
+   so `<html lang>` is right.
+6. Pages are server components and need no client JavaScript of their own.
+   QR codes are drawn at build time (`lib/qr.ts`, error correction M) as inline
+   SVG. `public/count.js` is the one optional script, loaded only while
+   analytics is on.
 7. The site is a static export for GitHub Pages: no API routes, no server
    features, no `revalidate`. Internal links end in `/` (`/ja/`), because
    `trailingSlash` is on, and go through `next/link` so they pick up the
-   base path when the site is served from a subfolder.
+   base path when the site is served from a subfolder. Links to files in
+   `public/` (the vCard, `count.js`) are plain `<a>`/`<script>` whose URL goes
+   through `withBasePath()` in `lib/base-path.ts`.
+8. The pages that read GitHub at build time (`/links`, `/now`) are
+   `force-static`, and `lib/github.ts` fetches with `cache: "no-store"` and
+   never throws: if GitHub cannot be read, the build still succeeds with the
+   hand-written content only.
 
 ## Checking a change
 
@@ -101,10 +124,16 @@ yarn build                                   # writes out/
 python3 -m http.server 3000 --directory out  # serves it like Pages
 ```
 
-Then, in a real browser, on `/` and `/ja` at 390px and 1280px: no console
-errors or CSP violations, no sideways scroll, the right `<html lang>`, the
-language switch goes to the other page, no lone Japanese character at the end
-of a line at 390px, and a still cube with reduced motion on.
+Then, in a real browser, on `/`, `/ja/`, `/links/`, `/now/`, `/nihongo/` and
+`/card/` at 390px and 1280px: no console errors or CSP violations, no sideways
+scroll, the right `<html lang>`, the language switch goes to the other page, no
+lone Japanese character at the end of a line at 390px, the cube turning (slowly
+with reduced motion on), and the `/card` QR decoding to
+`https://kakkoi.dev/ja/?ref=phone`.
+
+To test the GitHub fallback, point `GITHUB_API_URL` at a host that does not
+answer (`GITHUB_API_URL=http://127.0.0.1:9 yarn build`): the build must pass,
+`/links` shows the curated list and `/now` hides its list.
 
 Deployment is GitHub Pages; see the README.
 

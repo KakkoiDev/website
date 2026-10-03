@@ -51,7 +51,8 @@ function toRepo(item: Record<string, unknown>): Repo[] {
       name,
       fullName: full_name,
       href: (isWebUrl(homepage) ? homepage : html_url).trim(),
-      description: description.trim(),
+      // Shown verbatim on the site, which uses no em-dashes.
+      description: description.trim().replace(/\s*\u2014\s*/g, ": "),
       pushedAt: pushed_at,
     },
   ];
