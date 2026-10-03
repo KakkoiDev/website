@@ -37,6 +37,10 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
+  experimental: {
+    // app/global-not-found.tsx: the 404 for an app with one root layout per language
+    globalNotFound: true,
+  },
   images: {
     remotePatterns: [
       {

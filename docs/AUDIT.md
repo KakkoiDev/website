@@ -42,12 +42,27 @@ tools, each described from its own README: Echo, Minihongo, Schness, Bible
 Reader, KakkoiSchool, git-dispatch, the tmux agent tools, tinyagent and
 webmods. The content lives in `data/projects.ts`; edit or reorder there.
 
+The bio and a new **Experience** section follow the June 2025 resume plus the
+current MeetsMore work (AI features in ProOne, promoting AI feature
+development). Partner and client names under NDA are left out on purpose, and
+the phone number from the resume is not published. Content: `data/experience.ts`
+and the `about` block of `data/dictionary.ts`.
+
+### Japanese version
+
+`/ja` is the full site in Japanese, with an EN / 日本語 switch in the nav,
+`hreflang` alternates, a bilingual sitemap and a bilingual 404. Each language
+has its own root layout (`app/(en)`, `app/(ja)`) so the served `<html lang>`
+is right, and both render `components/Home.tsx`. Every visible string is in
+`data/dictionary.ts`; translatable data fields are `{ en, ja }` objects. Japanese
+headings use Noto Sans JP, because Bebas Neue has no Japanese glyphs. The
+About video is English-only, and its Japanese alt text says so.
+
 ## Still open: needs the owner
 
-1. **Bio is out of date.** It says "frontend web developer ... since 2018" and
-   the client work shown stops at TheseusAI. The recent public work is mostly
-   AI-agent tooling and Japanese-learning products. Decide on the headline and
-   whether to add current or recent employment.
+1. **Review the Japanese copy** in `data/dictionary.ts`, `data/experience.ts`,
+   `data/portfolio-projects.ts` and `data/projects.ts`, especially how ProOne and
+   the MeetsMore work are worded, before it goes on a card.
 2. **Hard rate limit.** The in-memory limiter resets on each serverless cold
    start. For a real limit, add a Vercel Firewall rate-limit rule on
    `/api/email/send`, or Cloudflare Turnstile on the form (then add
@@ -71,8 +86,10 @@ Technical constraints a redesign must keep, or knowingly change:
 - **Contact form.** Keep the hidden `website` honeypot input and the field
   names `email` and `message`; the API depends on them.
 - **Content is data.** `data/portfolio-projects.ts` (client work with video),
-  `data/projects.ts` (independent work), `data/social-links.ts`. Rendering
-  is all in `app/(ui)/page.tsx`.
+  `data/projects.ts` (independent work), `data/experience.ts`,
+  `data/social-links.ts`, and every UI string in `data/dictionary.ts`, in both
+  English and Japanese. Rendering is in `components/Home.tsx`, shared by `/`
+  and `/ja`. Keep new copy in the dictionary so the two languages cannot drift.
 
 Opportunities the redesign should take:
 
@@ -87,24 +104,24 @@ Opportunities the redesign should take:
   until hover, which a keyboard user cannot trigger.
 - **Contact flow.** The visitor no longer gets a confirmation email; the
   success toast says "I'll get back to you within 2 business days" instead.
-- **Japanese version.** See below: the business card will point Japanese
-  readers here, and the site is English-only. A `/ja` route (or a locale
-  switch like Schness's EN / 日本) belongs in the redesign.
+- **Japanese typography.** The Japanese page reuses the English layout with
+  Noto Sans JP. Wide letter-spacing and the very large hero sizes were tuned for
+  Bebas Neue; a Japanese-specific type scale would read better.
 
 ## Brief for the Japanese business cards (名刺)
 
 The card and the site must say the same thing, so settle these first:
 
-| Field | Proposed | Needs confirming |
+| Field | Value | Status |
 | --- | --- | --- |
 | 屋号 (trade name) | KakkoiDev | |
-| 氏名 (name) | Latin name plus katakana reading | The exact katakana and name order |
-| 肩書 (title) | e.g. Webアプリケーションエンジニア / フロントエンドエンジニア | Which one matches the new bio |
-| Email | | A public address (not the private form inbox) |
-| Web | kakkoi.dev | A Japanese landing page (`/ja`) for the QR code |
-| QR code | kakkoi.dev/ja | Needs the `/ja` page to exist first |
+| 氏名 (name) | アントニ　キリル / ANTONI Cyril | Confirmed (family name first) |
+| 肩書 (title) | e.g. フルスタックWebエンジニア | To choose; a personal card should not borrow the MeetsMore job title without the company's OK |
+| Email | contact@kakkoi.dev | From the resume |
+| Web | kakkoi.dev/ja | Live once this branch is deployed |
+| QR code | https://kakkoi.dev/ja | |
 | SNS | GitHub, LinkedIn | |
-| Phone, address | | Optional; many freelancers omit them |
+| Phone | | The resume has one; decide whether it goes on the card |
 
 Print conventions: Japanese standard size 91 × 55 mm, 3 mm bleed, text at least
 3 mm inside the trim, CMYK, 300 dpi or vector, Japanese fonts embedded or
