@@ -5,9 +5,22 @@ import { Locale } from "@/type";
 const SITE_URL = "https://kakkoi.dev";
 const PATHS: Record<Locale, string> = { en: "/", ja: "/ja/" };
 
+// The share previews, drawn by scripts/og-image.mjs at this size.
+const SHARE_IMAGES: Record<Locale, string> = { en: "/og.png", ja: "/og-ja.png" };
+
+export function shareImage(locale: Locale) {
+  const { name, title } = dictionary[locale].hero;
+  return {
+    url: SHARE_IMAGES[locale],
+    width: 1200,
+    height: 630,
+    alt: `${name} | ${[title].flat().join("")}`,
+  };
+}
+
 export function localeMetadata(locale: Locale): Metadata {
-  const { meta, hero } = dictionary[locale];
-  const { title, description } = meta;
+  const { title, description } = dictionary[locale].meta;
+  const image = shareImage(locale);
   return {
     metadataBase: new URL(SITE_URL),
     title,
@@ -23,9 +36,9 @@ export function localeMetadata(locale: Locale): Metadata {
       locale: locale === "ja" ? "ja_JP" : "en_US",
       title,
       description,
-      images: [{ url: "/cyril.jpg", alt: hero.name }],
+      images: [image],
     },
-    twitter: { card: "summary", title, description, images: ["/cyril.jpg"] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
 
@@ -36,7 +49,7 @@ export function englishPageMetadata(
   title: string,
   description: string,
 ): Metadata {
-  const image = { url: "/cyril.jpg", alt: dictionary.en.hero.name };
+  const image = shareImage("en");
   return {
     title,
     description,
@@ -50,6 +63,6 @@ export function englishPageMetadata(
       description,
       images: [image],
     },
-    twitter: { card: "summary", title, description, images: [image.url] },
+    twitter: { card: "summary_large_image", title, description, images: [image] },
   };
 }
