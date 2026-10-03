@@ -73,7 +73,11 @@ every 120s): the owner preferred that to a still cube.
 
 ## Rules
 
-1. Both languages, always. No string in a component.
+1. Both languages, always. No string in a component. The one exception is
+   `/links` (`components/Links.tsx`, content in `data/links.ts`): English only
+   by the owner's choice, a page to share directly, not linked from the home
+   page. Each entry links to the project's live site when there is one,
+   otherwise to its repository.
 2. Both languages keep the shared scale above, and Japanese keeps its
    phrase-based line breaks.
 3. No third-party origins: the CSP in `lib/csp.ts` allows this origin only.
