@@ -1,4 +1,4 @@
-import { Link, Icon } from "@/type";
+import { Link, Icon, Localized } from "@/type";
 
 export type PortfolioProjects = {
   title: string;
@@ -6,6 +6,6 @@ export type PortfolioProjects = {
   technologies: Icon[];
   fallbackImage: string;
   video: string;
-  description: string;
-  archivements: string[];
+  description: Localized;
+  achievements: Localized<string[]>;
 }[];

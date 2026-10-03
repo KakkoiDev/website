@@ -74,7 +74,7 @@ const getIcon = (icon: IconType): { class: string; title: string } => {
       };
     case "windows":
       return {
-        title: "Android",
+        title: "Windows",
         class: "icon-[logos--microsoft-windows-icon]",
       };
     case "supabase":
@@ -188,8 +188,10 @@ export const Icon = ({
     return (
       <a
         title={icon.title}
+        aria-label={icon.title}
         href={link}
         target="_blank"
+        rel="noopener noreferrer"
         className={`${size === "small" ? "size-6" : ""} ${
           size === "medium" ? "size-8" : ""
         }  ${size === "large" ? "size-12" : ""} ${icon.class}`}
@@ -200,6 +202,8 @@ export const Icon = ({
   return (
     <div
       title={icon.title}
+      role="img"
+      aria-label={icon.title}
       className={`${size === "small" ? "size-6" : ""} ${
         size === "medium" ? "size-8" : ""
       }  ${size === "large" ? "size-12" : ""} ${icon.class}`}
