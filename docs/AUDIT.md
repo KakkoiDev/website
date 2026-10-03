@@ -1,5 +1,11 @@
 # Audit and refresh — October 2026
 
+> **Superseded in part.** The redesign that followed (see `DESIGN.md`) removed
+> the contact form and its API, the portfolio, projects and experience sections,
+> and the Three.js and video dependencies. The security fixes below that concern
+> those parts no longer apply. The framework upgrade, the security headers,
+> the Japanese version and the business card brief still do.
+
 What was found on kakkoi.dev, what is already fixed on this branch, what still
 needs the owner, and the brief for the redesign and the Japanese business cards.
 
@@ -60,43 +66,15 @@ About video is English-only, and its Japanese alt text says so.
 
 ## Still open: needs the owner
 
-1. **Review the Japanese copy** in `data/dictionary.ts`, `data/experience.ts`,
-   `data/portfolio-projects.ts` and `data/projects.ts`, especially how ProOne and
-   the MeetsMore work are worded, before it goes on a card.
-2. **Hard rate limit.** The in-memory limiter resets on each serverless cold
-   start. For a real limit, add a Vercel Firewall rate-limit rule on
-   `/api/email/send`, or Cloudflare Turnstile on the form (then add
-   `https://challenges.cloudflare.com` to `script-src` and `frame-src` in the CSP).
-3. **Email domain auth.** Check SPF, DKIM and DMARC for the sending domain in
-   Resend. Rotate the Resend key if it was ever shared outside the host's env
-   settings.
-4. **HSTS preload** was deliberately left off: `includeSubDomains; preload`
+1. **HSTS preload** was deliberately left off: `includeSubDomains; preload`
    binds every `*.kakkoi.dev` subdomain to HTTPS for years. Add it once every
    subdomain is confirmed HTTPS-only.
-5. The README lists a Calendly link the site no longer shows; either put it back
-   on the contact section or drop it.
 
-## Brief for the redesign
+## Business card (名刺)
 
-Moved to [`DESIGN_HANDOFF.md`](DESIGN_HANDOFF.md), which is the one to keep current.
-
-## Brief for the Japanese business cards (名刺)
-
-The card and the site must say the same thing, so settle these first:
-
-| Field | Value | Status |
-| --- | --- | --- |
-| 屋号 (trade name) | KakkoiDev | |
-| 氏名 (name) | アントニ　キリル / ANTONI Cyril | Confirmed (family name first) |
-| 肩書 (title) | e.g. フルスタックWebエンジニア | To choose; a personal card should not borrow the MeetsMore job title without the company's OK |
-| Email | contact@kakkoi.dev | From the resume |
-| Web | kakkoi.dev/ja | Live once this branch is deployed |
-| QR code | https://kakkoi.dev/ja | |
-| SNS | GitHub, LinkedIn | |
-| Phone | | The resume has one; decide whether it goes on the card |
-
-Print conventions: Japanese standard size 91 × 55 mm, 3 mm bleed, text at least
-3 mm inside the trim, CMYK, 300 dpi or vector, Japanese fonts embedded or
-outlined (for example Noto Sans JP or BIZ UDPGothic). Common layout: Japanese
-on the front, English on the back. A horizontal (横書き) layout suits a tech
-business and fits the URL and email without wrapping.
+Designed with the redesign. Print files are in [`business-card/`](business-card/):
+send `business-card-print.pdf` (2 pages, 91 × 55 mm trim plus 3 mm bleed, fonts
+embedded) and ask for K-only output so the small type and QR stay sharp. The
+front reads アントニ キリル / Antoni Cyril / contact@kakkoi.dev; the back is a
+QR code that decodes to `https://kakkoi.dev/ja`, so `/ja` must be live before
+the cards are handed out. `front.html` and `back.html` are the editable sources.

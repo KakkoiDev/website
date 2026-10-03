@@ -1,16 +1,9 @@
-import { SocialLinks } from "@/type";
+import { SocialLink } from "@/type";
 
-export const socialLinks: SocialLinks[] = [
-  {
-    name: "linkedin",
-    link: "https://www.linkedin.com/in/acyril/",
-  },
-  // {
-  //   name: "upwork",
-  //   link: "https://www.upwork.com/freelancers/~014d271e4dad18b4ee",
-  // },
-  {
-    name: "github",
-    link: "https://github.com/KakkoiDev",
-  },
+export const contactEmail = "contact@kakkoi.dev";
+
+// Brand names, so the same in both languages.
+export const socialLinks: SocialLink[] = [
+  { label: "GitHub", href: "https://github.com/KakkoiDev" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/acyril/" },
 ];

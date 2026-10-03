@@ -6,7 +6,8 @@ const SITE_URL = "https://kakkoi.dev";
 const PATHS: Record<Locale, string> = { en: "/", ja: "/ja" };
 
 export function localeMetadata(locale: Locale): Metadata {
-  const { title, description } = dictionary[locale].meta;
+  const { meta, hero } = dictionary[locale];
+  const { title, description } = meta;
   return {
     metadataBase: new URL(SITE_URL),
     title,
@@ -22,7 +23,7 @@ export function localeMetadata(locale: Locale): Metadata {
       locale: locale === "ja" ? "ja_JP" : "en_US",
       title,
       description,
-      images: [{ url: "/cyril.jpg", alt: "Cyril Antoni" }],
+      images: [{ url: "/cyril.jpg", alt: hero.name }],
     },
     twitter: { card: "summary", title, description, images: ["/cyril.jpg"] },
   };

@@ -1,14 +1,13 @@
 const isDev = process.env.NODE_ENV !== "production";
 
 // Next.js inlines its bootstrap scripts, so script-src needs 'unsafe-inline'
-// unless every page is rendered per request with a nonce. Everything else is
-// pinned to this origin and the media CDN.
+// unless every page is rendered per request with a nonce. Everything else,
+// fonts included (next/font self-hosts them), comes from this origin only.
 const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://cdn.kakkoi.dev",
-  "media-src 'self' https://cdn.kakkoi.dev",
+  "img-src 'self' data:",
   "font-src 'self'",
   `connect-src 'self'${isDev ? " ws:" : ""}`,
   "object-src 'none'",
@@ -40,16 +39,6 @@ const nextConfig = {
   experimental: {
     // app/global-not-found.tsx: the 404 for an app with one root layout per language
     globalNotFound: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.kakkoi.dev",
-        port: "",
-        pathname: "/**",
-      },
-    ],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

@@ -2,136 +2,76 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-dotted {
-  background-image: radial-gradient(#d1d5db 8%, white 0);
-  background-size: 35px 35px;
+body {
+  background: #fff;
+  color: #000;
+  /* The design was set with the browser default, not Tailwind's 1.5. */
+  line-height: normal;
 }
 
-/* .slideup {
-  animation: slideup 0.5s forwards 1s;
+/* A Japanese phrase that must not be split across lines. */
+.ph {
+  display: inline-block;
 }
 
-@keyframes slideup {
-  0% {
-    margin-top: 0;
-  }
-
-  100% {
-    margin-top: -10rem;
-  }
-} */
-
-.cta {
-  background-color: white;
-  color: black;
-  overflow: hidden;
-  backdrop-filter: opacity(
-    1
-  ); /* fix Chrome bug with backdrop blur on nav element */
+/* Wireframe cube behind the hero. Pure CSS, decorative. */
+.scene {
+  perspective: 1200px;
 }
 
-.cta:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: difference;
-  background: radial-gradient(circle, white 25%, black 25%, black 100%);
-  transform: scale(0);
-  transition: transform 0.3s;
-}
-
-.cta.active:after {
-  transform: scale(4.5);
-}
-
-.cursor-halo {
-  background: white;
-  mix-blend-mode: difference;
-  width: 92px;
-  height: 92px;
-  z-index: 20;
-  transform: scale(0);
-  transform-origin: center;
-  transition: transform 0.3s;
-}
-
-.cursor-halo.halo-md {
-  transform: scale(1);
-}
-
-.slide-up-block {
+.cube {
+  --size: 240px;
   position: relative;
-  margin-bottom: -100px;
+  width: var(--size);
+  height: var(--size);
+  transform-style: preserve-3d;
+  animation: spin 30s linear infinite;
 }
 
-.slide-up-block-hide {
-  opacity: 0;
-}
-
-.slide-up-block-animate {
-  top: 0;
-  animation: slideupblock 1s forwards;
-}
-
-@keyframes slideupblock {
-  0% {
-    top: 0;
-    opacity: 0;
-  }
-
-  100% {
-    top: -100px;
-    opacity: 1;
+/* The English page uses the large cube; /ja is a phone landing page. */
+@media (min-width: 600px) {
+  .cube-lg {
+    --size: 420px;
   }
 }
 
-.fade-out-image {
-  animation: fadeoutimage 1s forwards;
+.cube > div {
+  position: absolute;
+  inset: 0;
+  border: 1.5px solid #00000024;
 }
 
-@keyframes fadeoutimage {
-  0% {
-    filter: grayscale(0);
-    opacity: 1;
-  }
-
-  100% {
-    filter: grayscale(1);
-    opacity: 0.3;
-  }
+.cube > div:nth-child(1) {
+  transform: translateZ(calc(var(--size) / 2));
+}
+.cube > div:nth-child(2) {
+  transform: rotateY(180deg) translateZ(calc(var(--size) / 2));
+}
+.cube > div:nth-child(3) {
+  transform: rotateY(90deg) translateZ(calc(var(--size) / 2));
+}
+.cube > div:nth-child(4) {
+  transform: rotateY(-90deg) translateZ(calc(var(--size) / 2));
+}
+.cube > div:nth-child(5) {
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+}
+.cube > div:nth-child(6) {
+  transform: rotateX(-90deg) translateZ(calc(var(--size) / 2));
 }
 
-@keyframes enter {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
+@keyframes spin {
+  from {
+    transform: rotateX(-24deg) rotateY(0);
   }
-
   to {
-    transform: scale(1);
-    opacity: 1;
+    transform: rotateX(-24deg) rotateY(360deg);
   }
 }
 
-.animate-enter {
-  animation: enter 0.2s ease-out;
-}
-
-@keyframes leave {
-  0% {
-    transform: scale(1);
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+  .cube {
+    animation: none;
+    transform: rotateX(-24deg) rotateY(38deg);
   }
-
-  to {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-}
-
-.animate-leave {
-  animation: leave 0.15s ease-in forwards;
 }

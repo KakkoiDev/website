@@ -1,4 +1,4 @@
-import { inter } from "@/lib/fonts";
+import { fontVariables } from "@/lib/fonts";
 import { localeMetadata } from "@/lib/metadata";
 import "../globals.css";
 
@@ -11,8 +11,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={fontVariables}>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }
