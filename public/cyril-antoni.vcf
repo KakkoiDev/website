@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Antoni;Cyril;;;
+FN:Cyril Antoni
+X-PHONETIC-LAST-NAME:アントニ
+X-PHONETIC-FIRST-NAME:キリル
+TITLE:Software engineer
+EMAIL;TYPE=INTERNET:contact@kakkoi.dev
+URL:https://kakkoi.dev
+END:VCARD

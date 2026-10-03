@@ -78,5 +78,7 @@ Designed with the redesign. Print files are in [`business-card/`](business-card/
 send `business-card-print.pdf` (2 pages, 91 × 55 mm trim plus 3 mm bleed, fonts
 embedded) and ask for K-only output so the small type and QR stay sharp. The
 front reads アントニ キリル / Antoni Cyril / contact@kakkoi.dev; the back is a
-QR code that decodes to `https://kakkoi.dev/ja`, so `/ja` must be live before
-the cards are handed out. `front.html` and `back.html` are the editable sources.
+QR code that decodes to `https://kakkoi.dev/ja/?ref=card` (changed on
+2026-10-03 so scans can be counted; earlier prints point to
+`https://kakkoi.dev/ja` and keep working). `front.html` and `back.html` are the
+editable sources.
