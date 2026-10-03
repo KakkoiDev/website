@@ -1,4 +1,4 @@
-import { notoSansJP } from "@/lib/fonts";
+import { fontVariables } from "@/lib/fonts";
 import { localeMetadata } from "@/lib/metadata";
 import "../globals.css";
 
@@ -10,8 +10,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className="scroll-smooth">
-      <body className={notoSansJP.className}>{children}</body>
+    <html lang="ja" className={fontVariables}>
+      <body className="font-jp">{children}</body>
     </html>
   );
 }
