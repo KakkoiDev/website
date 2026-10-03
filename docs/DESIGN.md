@@ -79,7 +79,8 @@ clips it horizontally so it can never widen the page. With
    Keep it that way unless a feature truly needs it.
 7. The site is a static export for GitHub Pages: no API routes, no server
    features, no `revalidate`. Internal links end in `/` (`/ja/`), because
-   `trailingSlash` is on.
+   `trailingSlash` is on, and go through `next/link` so they pick up the
+   base path when the site is served from a subfolder.
 
 ## Checking a change
 
