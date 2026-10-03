@@ -8,7 +8,7 @@ import "./globals.css";
 // so this page renders its own <html>. It speaks both languages because the
 // URL that missed says nothing about the visitor's.
 export const metadata: Metadata = {
-  title: "404 — kakkoi.dev",
+  title: "404 | kakkoi.dev",
   robots: { index: false },
 };
 

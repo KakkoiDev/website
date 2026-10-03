@@ -17,7 +17,7 @@ type Dictionary = {
 // first in Japanese ones, in both scripts.
 const en: Dictionary = {
   meta: {
-    title: "Cyril Antoni — kakkoi.dev",
+    title: "Cyril Antoni | kakkoi.dev",
     description:
       "Cyril Antoni. I fix problems, and I help others get better at fixing problems.",
   },
@@ -37,7 +37,7 @@ const en: Dictionary = {
 
 const ja: Dictionary = {
   meta: {
-    title: "アントニ キリル — kakkoi.dev",
+    title: "アントニ キリル | kakkoi.dev",
     description:
       "アントニ キリル。問題を解決し、人が問題をもっとうまく解決できるよう手助けします。",
   },

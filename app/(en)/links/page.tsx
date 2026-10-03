@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Links from "@/components/Links";
 
-const title = "Links — kakkoi.dev";
+const title = "Links | kakkoi.dev";
 const description =
   "Cyril Antoni's projects: KakkoiSchool, Japanese learning tools, apps and AI developer tools.";
 
