@@ -1,3 +1,4 @@
+import Analytics from "@/components/Analytics";
 import { contentSecurityPolicy } from "@/lib/csp";
 import { fontVariables } from "@/lib/fonts";
 import { localeMetadata } from "@/lib/metadata";
@@ -16,7 +17,10 @@ export default function RootLayout({
       <head>
         <meta httpEquiv="Content-Security-Policy" content={contentSecurityPolicy} />
       </head>
-      <body className="font-sans">{children}</body>
+      <body className="font-sans">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

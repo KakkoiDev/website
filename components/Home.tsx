@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { contactEmail, dictionary, socialLinks } from "@/data";
+import { contactEmail, dictionary, socialLinks, vcardPath } from "@/data";
 import { Phrases } from "@/data/dictionary";
+import { withBasePath } from "@/lib/base-path";
 import { Locale } from "@/type";
 
 // One server component for both languages, on one shared scale: every
@@ -30,6 +31,7 @@ const styles = {
     altName: "font-jp text-[14px] tracking-[0.3em]",
     h2: "mb-4 font-display font-normal text-[28px] tracking-[0.02em]",
     item: "text-[20px] font-semibold leading-[1.4]",
+    vcard: "",
   },
   ja: {
     ...shared,
@@ -38,6 +40,8 @@ const styles = {
     altName: "font-display text-[20px] tracking-[0.06em]",
     h2: "mb-4 font-jp font-bold text-[20px]",
     item: "text-[20px] font-bold leading-[1.6]",
+    // The one Japanese label in the row of contact links.
+    vcard: "font-jp",
     links: `${shared.links} font-sans`,
     footer: `${shared.footer} font-sans`,
   },
@@ -149,6 +153,15 @@ export default function Home({ locale }: { locale: Locale }) {
                 {label}
               </a>
             ))}
+            {/* A file in public/, so the base path is added by hand. */}
+            <a
+              href={withBasePath(vcardPath)}
+              download
+              lang={locale === "ja" ? "ja" : undefined}
+              className={`${link} ${s.vcard}`}
+            >
+              {t.contact.addToContacts}
+            </a>
           </div>
         </section>
       </main>
