@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The hero cube is wider than the column; clip it at the screen edge without
+   creating a scroll container (overflow: hidden would break sticky/anchors). */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: #fff;
   color: #000;

@@ -91,11 +91,13 @@ export default function Home({ locale }: { locale: Locale }) {
       <main className={column}>
         <section
           id="home"
-          className={`relative flex flex-col items-center overflow-x-clip text-center ${s.hero}`}
+          className={`relative flex flex-col items-center text-center ${s.hero}`}
         >
+          {/* Full viewport width, so the cube runs to the screen edge rather
+              than stopping at the column's padding. The page clips it. */}
           <div
             aria-hidden="true"
-            className="scene pointer-events-none absolute inset-0 z-0 flex items-center justify-center"
+            className="scene pointer-events-none absolute inset-y-0 left-1/2 z-0 flex w-screen -translate-x-1/2 items-center justify-center"
           >
             <div className={s.cube}>
               <div />
