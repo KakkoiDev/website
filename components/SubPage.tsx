@@ -34,6 +34,22 @@ function Anchor({
   );
 }
 
+// Japanese inside an English line (文語訳, or a description from GitHub) is
+// marked as Japanese and set in Noto Sans JP, like all Japanese on the site.
+const japanese = /([\u3000-\u30ff\u3400-\u9fff\uf900-\ufaff\uff00-\uffef]+)/;
+
+function Mixed({ text }: { text: string }) {
+  return text.split(japanese).map((part, i) =>
+    i % 2 ? (
+      <span key={i} lang="ja" className="font-jp">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 type Item = Omit<LinkItem, "repo"> & { note?: React.ReactNode };
 
 export function LinkList({ links }: { links: Item[] }) {
@@ -47,7 +63,9 @@ export function LinkList({ links }: { links: Item[] }) {
           >
             {name}
           </Anchor>
-          <span className="text-[16px] text-muted">{description}</span>
+          <span className="text-[16px] text-muted">
+            <Mixed text={description} />
+          </span>
           {note}
         </li>
       ))}
