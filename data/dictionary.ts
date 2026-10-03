@@ -9,7 +9,7 @@ type Dictionary = {
   nav: { logo: string; switchLabel: string; switchHref: string };
   hero: { name: string; altName: string; title: Phrases };
   about: { heading: string; items: Phrases[] };
-  contact: { heading: string };
+  contact: { heading: string; addToContacts: string };
   footer: (year: number) => string;
 };
 
@@ -31,7 +31,7 @@ const en: Dictionary = {
     heading: "What I do",
     items: ["I fix problems.", "I help others get better at fixing problems."],
   },
-  contact: { heading: "Contact" },
+  contact: { heading: "Contact", addToContacts: "Add to contacts" },
   footer: (year) => `© ${year} Cyril Antoni`,
 };
 
@@ -54,7 +54,7 @@ const ja: Dictionary = {
       ["人が問題を", "もっとうまく", "解決できるよう", "手助けします。"],
     ],
   },
-  contact: { heading: "連絡先" },
+  contact: { heading: "連絡先", addToContacts: "連絡先に追加" },
   footer: (year) => `© ${year} Antoni Cyril`,
 };
 
