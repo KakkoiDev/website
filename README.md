@@ -33,7 +33,7 @@ The site is in English (`/`) and Japanese (`/ja`). Both render
 
 Security headers, including the Content-Security-Policy, are set in
 `next.config.mjs`. Any new third-party origin must be added there. See
-`docs/AUDIT.md` for the October 2026 audit.
+`docs/AUDIT.md` for the October 2026 audit and `docs/DESIGN_HANDOFF.md` before a redesign.
 
 ## Third Party Services
 

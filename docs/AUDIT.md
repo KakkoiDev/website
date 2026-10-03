@@ -3,7 +3,7 @@
 What was found on kakkoi.dev, what is already fixed on this branch, what still
 needs the owner, and the brief for the redesign and the Japanese business cards.
 
-## Fixed on this branch
+## Fixed in the October 2026 audit
 
 ### Security
 
@@ -78,35 +78,7 @@ About video is English-only, and its Japanese alt text says so.
 
 ## Brief for the redesign
 
-Technical constraints a redesign must keep, or knowingly change:
-
-- **CSP.** Any new third-party origin (fonts, analytics, embeds, CAPTCHA) must
-  be added to the policy in `next.config.mjs`, or the browser will block it.
-  Fonts load through `next/font`, which self-hosts them, so they need no change.
-- **Contact form.** Keep the hidden `website` honeypot input and the field
-  names `email` and `message`; the API depends on them.
-- **Content is data.** `data/portfolio-projects.ts` (client work with video),
-  `data/projects.ts` (independent work), `data/experience.ts`,
-  `data/social-links.ts`, and every UI string in `data/dictionary.ts`, in both
-  English and Japanese. Rendering is in `components/Home.tsx`, shared by `/`
-  and `/ja`. Keep new copy in the dictionary so the two languages cannot drift.
-
-Opportunities the redesign should take:
-
-- **Performance.** The whole page is one client component. Splitting the
-  static sections into server components and keeping only the interactive
-  parts on the client would cut the JavaScript a lot. The Three.js wireframe
-  cube pulls in Three.js and react-three-fiber for one decorative element.
-  `react-player` only plays plain MP4s, which a native `<video>` handles.
-- **Motion.** Videos autoplay on scroll and there is a cursor halo and a
-  reveal animation; none of it respects `prefers-reduced-motion`.
-- **Accessibility.** On devices with a mouse, the portfolio details are hidden
-  until hover, which a keyboard user cannot trigger.
-- **Contact flow.** The visitor no longer gets a confirmation email; the
-  success toast says "I'll get back to you within 2 business days" instead.
-- **Japanese typography.** The Japanese page reuses the English layout with
-  Noto Sans JP. Wide letter-spacing and the very large hero sizes were tuned for
-  Bebas Neue; a Japanese-specific type scale would read better.
+Moved to [`DESIGN_HANDOFF.md`](DESIGN_HANDOFF.md), which is the one to keep current.
 
 ## Brief for the Japanese business cards (名刺)
 
