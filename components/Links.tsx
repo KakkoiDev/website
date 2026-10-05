@@ -1,17 +1,15 @@
-import Link from "next/link";
-import SubPage, { LinkGroups, leadLink } from "@/components/SubPage";
+import SubPage, { LinkGroups } from "@/components/SubPage";
 import { linkGroups, linksPage } from "@/data";
 import { Repo, taggedRepos } from "@/lib/github";
-import { LinkGroup } from "@/type";
+import { LinkGroup, Locale } from "@/type";
 
-// English only, by the owner's choice: a page to share directly, with the
-// same visual system as the home page.
+// Both languages use the same curated destinations and GitHub discovery.
 
 const key = (value: string) => value.toLowerCase().replace(/\/+$/, "");
 
 // Curated entries win: a tagged repo joins only when no entry already names
 // it in `repo` or links where it would.
-function withTaggedRepos(groups: LinkGroup[], repos: Repo[] | null) {
+function withTaggedRepos(groups: LinkGroup[], repos: Repo[] | null, locale: Locale) {
   const listed = new Set(
     groups.flatMap(({ links }) =>
       links.flatMap(({ href, repo }) => (repo ? [key(href), key(repo)] : [key(href)])),
@@ -26,22 +24,15 @@ function withTaggedRepos(groups: LinkGroup[], repos: Repo[] | null) {
       repo: fullName,
     }));
   return more.length > 0
-    ? [...groups, { heading: linksPage.moreHeading, links: more }]
+    ? [...groups, { heading: linksPage[locale].moreHeading, links: more }]
     : groups;
 }
 
-export default async function Links() {
-  const groups = withTaggedRepos(linkGroups, await taggedRepos());
+export default async function Links({ locale = "en" }: { locale?: Locale }) {
+  const groups = withTaggedRepos(linkGroups[locale], await taggedRepos(), locale);
   return (
-    <SubPage
-      title={linksPage.title}
-      lead={
-        <Link href="/now/" className={leadLink}>
-          {linksPage.nowLink}
-        </Link>
-      }
-    >
-      <LinkGroups groups={groups} />
+    <SubPage locale={locale} path="/links/" translated title={linksPage[locale].title}>
+      <LinkGroups groups={groups} locale={locale} />
     </SubPage>
   );
 }

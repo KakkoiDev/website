@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Navigation from "@/components/Navigation";
 import { contactEmail, dictionary, socialLinks, vcardPath } from "@/data";
 import { Phrases } from "@/data/dictionary";
 import { withBasePath } from "@/lib/base-path";
@@ -69,24 +69,7 @@ export default function Home({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <header className={`${column} ${s.header} flex items-center justify-between`}>
-        <a
-          href="#home"
-          lang="en"
-          className={`flex min-h-[44px] items-center font-display tracking-[0.03em] hover:text-muted ${s.logo}`}
-        >
-          {t.nav.logo}
-        </a>
-        {/* Link, not <a>, so the href picks up the base path. */}
-        <Link
-          href={t.nav.switchHref}
-          lang={other}
-          hrefLang={other}
-          className={`text-[14px] ${link} ${s.switch}`}
-        >
-          {t.nav.switchLabel}
-        </Link>
-      </header>
+      <Navigation locale={locale} />
 
       <main className={column}>
         <section

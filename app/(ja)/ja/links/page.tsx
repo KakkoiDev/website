@@ -5,10 +5,10 @@ import { pageMetadata } from "@/lib/page-metadata";
 // GitHub is read afresh at build time; these pages are statically exported.
 export const dynamic = "force-static";
 export const metadata = pageMetadata(
-  "en", "/links/", `${linksPage.en.title} | kakkoi.dev`,
-  linksPage.en.description,
+  "ja", "/links/", `${linksPage.ja.title} | kakkoi.dev`,
+  linksPage.ja.description,
 );
 
 export default function Page() {
-  return <Links locale="en" />;
+  return <Links locale="ja" />;
 }

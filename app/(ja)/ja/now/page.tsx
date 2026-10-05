@@ -5,10 +5,10 @@ import { pageMetadata } from "@/lib/page-metadata";
 // GitHub is read afresh at build time; these pages are statically exported.
 export const dynamic = "force-static";
 export const metadata = pageMetadata(
-  "en", "/now/", `${now.en.title} | kakkoi.dev`,
-  "What Cyril Antoni is working on now: teaching, tools for learning Japanese, and AI coding agents.",
+  "ja", "/now/", `${now.ja.title} | kakkoi.dev`,
+  "アントニ キリルの近況：教育、日本語学習ツール、AIコーディングエージェント。",
 );
 
 export default function Page() {
-  return <Now locale="en" />;
+  return <Now locale="ja" />;
 }

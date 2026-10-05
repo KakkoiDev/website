@@ -1,31 +1,32 @@
-import SubPage, { LinkList, h2, prose, section } from "@/components/SubPage";
+import SubPage, { LinkList, heading, prose, section } from "@/components/SubPage";
 import { now } from "@/data";
+import { Locale } from "@/type";
 import { recentRepos } from "@/lib/github";
 
-// English only, like /links. The paragraphs are hand-written in data/now.ts;
-// the list is read from GitHub at build time and left out when it cannot be.
-const day = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  timeZone: "UTC",
-});
-
-export default async function Now() {
+// Repository descriptions stay as written on GitHub in both languages.
+export default async function Now({ locale = "en" }: { locale?: Locale }) {
+  const t = now[locale];
+  const day = new Intl.DateTimeFormat(locale === "ja" ? "ja-JP" : "en-US", {
+    month: "short", day: "numeric", timeZone: "UTC",
+  });
   const repos = await recentRepos();
   return (
     <SubPage
-      title={now.title}
-      lead={<p className="text-[16px] text-muted">{now.updated}</p>}
+      locale={locale}
+      path="/now/"
+      translated
+      title={t.title}
+      lead={<p className="text-[16px] text-muted">{t.updated}</p>}
     >
       <div className={`${section} flex flex-col gap-[18px] ${prose}`}>
-        {now.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+        {t.paragraphs.map((paragraph) => (
+          <p key={paragraph} className={locale === "ja" ? "[text-wrap:pretty]" : undefined}>{paragraph}</p>
         ))}
       </div>
 
       {repos && repos.length > 0 && (
         <section className={section}>
-          <h2 className={h2}>{now.recentHeading}</h2>
+          <h2 className={heading(locale)}>{t.recentHeading}</h2>
           <LinkList
             links={repos.map(({ name, href, description, pushedAt }) => ({
               name,

@@ -8,15 +8,16 @@
 
 ## Content
 
-One page in English (`/`) and Japanese (`/ja`), both rendered by the server
-component `components/Home.tsx`.
+Home, Now and Links are available in English (`/`, `/now/`, `/links/`) and
+Japanese (`/ja/`, `/ja/now/`, `/ja/links/`). Each pair shares a server
+component and navigation with a page-preserving language switch.
 
 - `data/dictionary.ts`: every visible string and the page metadata, in `en` and `ja`
 - `data/social-links.ts`: the contact email and profile links
-- `data/links.ts`: the curated projects on `/links` (English only); link the
+- `data/links.ts`: the curated projects on `/links` and `/ja/links`; link the
   live site when there is one, the repository otherwise; set `repo` to
   "Owner/name" when there is one
-- `data/now.ts`: the `/now` text; rewrite it, and its "Updated" line, when your
+- `data/now.ts`: the English and Japanese `/now` text; rewrite both versions, and its "Updated" line, when your
   focus changes (the "Recently updated" list below it builds itself)
 - `data/nihongo.ts`: the `/nihongo` hub of Japanese learning tools
 - `data/card.ts`: the `/card` digital 名刺 (a QR code to show on a phone)

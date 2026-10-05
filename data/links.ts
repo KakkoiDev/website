@@ -1,10 +1,10 @@
 import { LinkGroup } from "@/type";
 
-// The /links page (English only). Each entry points at the live site when
+// The /links page in English and Japanese. Each entry points at the live site when
 // there is one, otherwise at the repository; `repo` names the repository
 // either way. Public repos tagged with the GitHub topic in lib/github.ts are
 // added after these at build time, unless their `repo` is already here.
-export const linkGroups: LinkGroup[] = [
+const enGroups: LinkGroup[] = [
   {
     heading: "Teaching and community",
     links: [
@@ -147,9 +147,59 @@ export const linkGroups: LinkGroup[] = [
   },
 ];
 
+
+// Preserve project identities and destinations across languages.
+const translations = [
+  { heading: "教育とコミュニティ", items: [
+    ["KakkoiSchool", "HTML・CSSからReact・Next.js・Nest.js・AIまで、プロジェクトを通じて学ぶ39のレッスン。"],
+    ["KakkoiSchoolのGitHub", "スクールのプロジェクトを管理する組織。"],
+    ["AI GUILD IZUMO", "AIで学び、作り、共有する出雲のコミュニティ。"],
+    ["Kakkoi Online", "KakkoiSchoolの授業で作った、サーバー不要のブラウザー対戦ゲーム。"],
+    ["Web Engineering Reforging", "ウェブエンジニアリングの公開ハンドブック。"],
+  ] },
+  { heading: "日本語学習", items: [
+    ["日本語を学ぶ", "日本語学習のツールとAnkiデッキを一つのページに。"],
+    ["Echo", "英語の文を日本語にして、シャドーイングで学ぶ。"],
+    ["Minihongo", "231語で、日本語で何でも表現する。"],
+    ["The Roots of Japanese", "漢字の構成要素を通じて日本語の語彙を学ぶ。"],
+    ["IT日本語のAnkiデッキ", "ソフトウェアエンジニア向けの職場で使う1,516文。自然な音声付き。"],
+  ] },
+  { heading: "アプリとゲーム", items: [
+    ["Bible Reader", "14の版を並べて、オフラインで聖書を読む。"],
+    ["Schness", "AIと対戦できる4×4のチェス変種。"],
+    ["QR Generator", "入力しながらQRコードを作成し、URLで共有してSVGでダウンロード。"],
+  ] },
+  { heading: "AIと開発者向けツール", items: [
+    ["Intent Driven Development", "AIエージェントが意図どおりに実装し、人が検証できるよう、作業を仕様化する。"],
+    ["Jikko", "人とエージェントのために、プレーンなMarkdownで作業を計画・追跡・検証する。"],
+    ["tmux agent tools", "tmuxで多数のAIコーディングエージェントを動かす。メッセージ、状態管理、自動再開、音声に対応。"],
+    ["git-dispatch", "ブランチを積み重ねずに、積み重ね型のPRを管理する。"],
+    ["tinyagent", "0.5Bのローカルモデルで動くターミナルエージェント。すべての操作を実行前に承認。"],
+    ["webmods", "Google Meet・GitHub・Slackに機能を追加するユーザースクリプト。"],
+  ] },
+];
+
+export const linkGroups = {
+  en: enGroups,
+  ja: enGroups.map((group, i) => ({
+    heading: translations[i].heading,
+    links: group.links.map((item, j) => ({
+      ...item,
+      name: translations[i].items[j][0],
+      description: translations[i].items[j][1],
+    })),
+  })),
+};
+
 export const linksPage = {
-  title: "Links",
-  nowLink: "What I'm working on now",
-  // The last group: tagged repos that no entry above lists.
-  moreHeading: "More projects",
+  en: {
+    title: "Links",
+    description: "Cyril Antoni's projects: KakkoiSchool, Japanese learning tools, apps and AI developer tools.",
+    moreHeading: "More projects",
+  },
+  ja: {
+    title: "リンク",
+    description: "アントニ キリルのプロジェクト：KakkoiSchool、日本語学習ツール、アプリ、AI開発者向けツール。",
+    moreHeading: "その他のプロジェクト",
+  },
 };

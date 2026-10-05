@@ -13,9 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
       alternates: { languages },
     })),
-    // English only. /now's list of recent work changes with the weekly build.
-    { url: "https://kakkoi.dev/links/", changeFrequency: "monthly", priority: 0.8 },
-    { url: "https://kakkoi.dev/now/", changeFrequency: "weekly", priority: 0.6 },
+    ...(["links", "now"] as const).flatMap((page) => {
+      const languages = { en: `https://kakkoi.dev/${page}/`, ja: `https://kakkoi.dev/ja/${page}/` };
+      return Object.values(languages).map((url) => ({
+        url,
+        changeFrequency: page === "now" ? "weekly" as const : "monthly" as const,
+        priority: page === "now" ? 0.6 : 0.8,
+        alternates: { languages },
+      }));
+    }),
     { url: "https://kakkoi.dev/nihongo/", changeFrequency: "monthly", priority: 0.8 },
   ];
 }

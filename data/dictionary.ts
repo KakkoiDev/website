@@ -6,7 +6,7 @@ export type Phrases = string | string[];
 
 type Dictionary = {
   meta: { title: string; description: string };
-  nav: { logo: string; switchLabel: string; switchHref: string };
+  nav: { logo: string; switchLabel: string; switchHref: string; label: string; now: string; links: string };
   hero: { name: string; altName: string; title: Phrases };
   about: { heading: string; items: Phrases[] };
   contact: { heading: string; addToContacts: string };
@@ -21,7 +21,7 @@ const en: Dictionary = {
     description:
       "Cyril Antoni. I fix problems, and I help others get better at fixing problems.",
   },
-  nav: { logo: "KakkoiDev", switchLabel: "日本語", switchHref: "/ja/" },
+  nav: { logo: "KakkoiDev", switchLabel: "日本語", switchHref: "/ja/", label: "Main navigation", now: "Now", links: "Links" },
   hero: {
     name: "Cyril Antoni",
     altName: "キリル アントニ",
@@ -41,7 +41,7 @@ const ja: Dictionary = {
     description:
       "アントニ キリル。問題を解決し、人が問題をもっとうまく解決できるよう手助けします。",
   },
-  nav: { logo: "KakkoiDev", switchLabel: "English", switchHref: "/" },
+  nav: { logo: "KakkoiDev", switchLabel: "English", switchHref: "/", label: "メインナビゲーション", now: "近況", links: "リンク" },
   hero: {
     name: "アントニ キリル",
     altName: "Antoni Cyril",

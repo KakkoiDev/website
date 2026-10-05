@@ -75,13 +75,14 @@ every 120s): the owner preferred that to a still cube.
 
 1. Both languages, always. No string in a component. Exceptions, by the
    owner's choice:
-   - English only, on one shared shell (`components/SubPage.tsx`: the home
-     page's header, column and footer), no hreflang, metadata from
-     `englishPageMetadata()`: `/links` (`data/links.ts`, shared directly, not
-     linked from home), `/now` (`data/now.ts`, linked from `/links`) and
-     `/nihongo` (`data/nihongo.ts`, the Japanese learning hub, linked from
-     the Japanese group on `/links`). Japanese inside their text carries
-     `lang="ja"`.
+   - `/links` and `/now` are available in English and Japanese at the root
+     and under `/ja/`. Home, Links and Now share `components/Navigation.tsx`:
+     Now and Links are visible in both languages, and the language switch
+     stays on the corresponding page. Now has no separate link in the Links
+     page content.
+   - `/nihongo` remains English only, on `components/SubPage.tsx`, with no
+     hreflang and metadata from `englishPageMetadata()`. It is linked from
+     the Japanese learning group on `/links` in either language.
    - `/card` (`components/Card.tsx`, `data/card.ts`) shows both languages on
      one page, like the 404: it is the digital 名刺 shown on a phone, so the
      reader may read either. `noindex`, not in the sitemap, not linked. It
@@ -124,7 +125,7 @@ yarn build                                   # writes out/
 python3 -m http.server 3000 --directory out  # serves it like Pages
 ```
 
-Then, in a real browser, on `/`, `/ja/`, `/links/`, `/now/`, `/nihongo/` and
+Then, in a real browser, on `/`, `/ja/`, `/links/`, `/ja/links/`, `/now/`, `/ja/now/`, `/nihongo/` and
 `/card/` at 390px and 1280px: no console errors or CSP violations, no sideways
 scroll, the right `<html lang>`, the language switch goes to the other page, no
 lone Japanese character at the end of a line at 390px, the cube turning (slowly
