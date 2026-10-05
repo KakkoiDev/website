@@ -23,8 +23,11 @@ Contact links come from `data/social-links.ts`.
 - **Name order is deliberate.** English contexts put the given name first:
   Cyril Antoni / キリル アントニ. Japanese contexts put the family name first:
   アントニ キリル / Antoni Cyril. Metadata follows the same rule.
-- **Never on the site:** "full-stack", living in Japan, ProOne, client or
+- **Never on the site:** "full-stack", living in Japan, client or
   partner names, the phone number.
+- **Now page exception (owner request, 2026-10-05):** mention employment at
+  MeetsMore in Ginza, Tokyo, AI integration into ProOne, and support for
+  other teams integrating AI into their features, in both languages.
 - **Japanese line breaks:** Japanese strings are arrays of phrases. Each phrase
   renders as an inline-block (`.ph`), so lines break only between phrases and
   never end on a lone character.
